@@ -1,4 +1,4 @@
-# Reasoning Chain Pruning for inference efficiency
+# Reasoning Chain Pruning for Efficient Inference Time Compute Scaling
 This repository contains code for our research on pruning parallel reasoning chains to improve inference time scaling efficiency in mathematical problem solving. This is a theoretical approach to demonstrate how much performance can be improved - with an efficient hardware implementation on the way.
 
 ## Research Overview
