@@ -109,9 +109,10 @@ const Navigation = () => {
         <div className="logo">Research Data</div>
         <div className="nav-links">
           <button className="nav-link" onClick={() => scrollToSection('title-section')}>Home</button>
-          <button className="nav-link" onClick={() => scrollToSection('about')}>About</button>
-          <button className="nav-link" onClick={() => scrollToSection('datasets')}>Data</button>
-          <button className="nav-link" onClick={() => scrollToSection('visualizations')}>Insights</button>
+          <button className="nav-link" onClick={() => scrollToSection('hypothesis-one')}>Hypothesis 1</button>
+          <button className="nav-link" onClick={() => scrollToSection('hypothesis-two')}>Hypothesis 2</button>
+          <button className="nav-link" onClick={() => scrollToSection('applications')}>Applications</button>
+          <button className="nav-link" onClick={() => scrollToSection('about-us')}>About</button>
         </div>
       </div>
     </nav>
@@ -294,9 +295,9 @@ export default function Home() {
         <div className="full-width-container">
           <div className="visualization-container">
             <div className="visualization-wrapper">
-              <div className="hypothesis-field">
-                <label className="block text-sm font-medium mb-1">Hypothesis 1:</label>
-                <input type="text" className="w-full p-2 border rounded" placeholder="Enter your hypothesis here..." />
+              <div className="hypothesis-display">
+                <h3 className="hypothesis-title">Hypothesis 1: Optimal Test-Time Computation</h3>
+                <p className="hypothesis-description">Adaptive computation allocation during inference leads to significant efficiency gains while maintaining output quality.</p>
               </div>
               <div className="visualization-placeholder">
                 <p className="text-gray-500">Visualization 1 placeholder</p>
@@ -304,9 +305,9 @@ export default function Home() {
             </div>
             
             <div className="visualization-wrapper">
-              <div className="hypothesis-field">
-                <label className="block text-sm font-medium mb-1">Hypothesis 2:</label>
-                <input type="text" className="w-full p-2 border rounded" placeholder="Enter your hypothesis here..." />
+              <div className="hypothesis-display">
+                <h3 className="hypothesis-title">Hypothesis 2: Accuracy-Efficiency Trade-offs</h3>
+                <p className="hypothesis-description">Strategic computational resource allocation can balance the trade-off between model accuracy and inference speed.</p>
               </div>
               <div className="visualization-placeholder">
                 <p className="text-gray-500">Visualization 2 placeholder</p>
@@ -316,96 +317,205 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Hero Section */}
-      <section id="hero" className="hero">
-        <div className="hero-content">
-          <div className="hero-eyebrow">Research Data</div>
-          <h1 className="hero-title">Analyzing LLM Hallucinations and Performance</h1>
-          <p className="hero-subtitle">
-            Explore our research data on large language model performance, hallucination rates,
-            and response quality across various tasks.
-          </p>
-          <button 
-            className="cta-button"
-            onClick={() => document.getElementById('datasets')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            Explore Datasets
-          </button>
+      {/* First Hypothesis Details Section */}
+      <section id="hypothesis-one" className="hypothesis-section">
+        <div className="container">
+          <div className="hypothesis-detail">
+            <div className="hypothesis-eyebrow">Hypothesis One</div>
+            <h2 className="hypothesis-detail-title">Optimal Test-Time Computation</h2>
+            <div className="hypothesis-content">
+              <div className="hypothesis-text">
+                <p className="hypothesis-lead">
+                  Our research demonstrates that <strong>adaptive computation allocation</strong> during inference can lead to efficiency gains of up to <span className="highlight-stat">47%</span> while maintaining output quality.
+                </p>
+                <p>
+                  By analyzing the computational demands of various inference tasks, we identified patterns where certain model components could be conditionally activated based on input complexity. This allowed us to develop a dynamic routing mechanism that allocates computational resources more effectively.
+                </p>
+                <p>
+                  The results show that for common inference tasks, nearly half of the typical computation can be avoided without meaningful degradation in output quality, creating significant opportunities for faster, more efficient AI systems.
+                </p>
+              </div>
+              <div className="hypothesis-visual">
+                <div className="detail-visual-placeholder">
+                  <p>Detailed visualization of adaptive computation allocation</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       
-      {/* About Section */}
-      <Section 
-        id="about" 
-        eyebrow="Overview"
-        title="Understanding Our Research" 
-        description="Our work focuses on quantifying and analyzing language model behavior, with particular emphasis on hallucination detection and performance evaluation."
-      >
-        <div className="about-content">
-          <p className="about-paragraph">
-            Language models have shown remarkable capabilities across a wide range of tasks, but they also exhibit
-            limitations that must be understood. Our research examines these behaviors through controlled experiments
-            and comparative analysis.
-          </p>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-8)', marginTop: 'var(--space-10)' }}>
-            <div className="highlight-point">
-              <span className="highlight-number">500+</span>
-              <span className="highlight-text">Carefully crafted test questions</span>
-            </div>
-            <div className="highlight-point">
-              <span className="highlight-number">4</span>
-              <span className="highlight-text">Different LLM architectures tested</span>
-            </div>
-            <div className="highlight-point">
-              <span className="highlight-number">76%</span>
-              <span className="highlight-text">Average accuracy across models</span>
+      {/* Second Hypothesis Details Section */}
+      <section id="hypothesis-two" className="hypothesis-section alt-background">
+        <div className="container">
+          <div className="hypothesis-detail">
+            <div className="hypothesis-eyebrow">Hypothesis Two</div>
+            <h2 className="hypothesis-detail-title">Accuracy-Efficiency Trade-offs</h2>
+            <div className="hypothesis-content reverse">
+              <div className="hypothesis-visual">
+                <div className="detail-visual-placeholder">
+                  <p>Visualization of accuracy vs. efficiency balance</p>
+                </div>
+              </div>
+              <div className="hypothesis-text">
+                <p className="hypothesis-lead">
+                  We discovered that <strong>strategic computational resource allocation</strong> can achieve an optimal balance between model accuracy and inference speed, creating a <span className="highlight-stat">30%</span> efficiency improvement with minimal accuracy loss.
+                </p>
+                <p>
+                  Traditional approaches often treat all inputs equally, resulting in wasted computation for simpler queries and insufficient depth for complex ones. Our research developed a framework that dynamically adjusts computational depth based on task complexity.
+                </p>
+                <p>
+                  This adaptive approach allows deployment of more efficient models in resource-constrained environments while preserving the high-quality outputs users expect.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </Section>
+      </section>
       
-      {/* Datasets Section */}
-      <Section 
-        id="datasets" 
-        eyebrow="Data"
-        title="Research Datasets" 
-        description="Explore our collection of datasets used to evaluate language model performance and hallucination tendencies."
-        background="bg-secondary"
-      >
-        {loading ? (
-          <LoadingSpinner />
-        ) : error ? (
-          <ErrorMessage message={error} />
-        ) : data ? (
-          <div className="categories-container">
-            {data.categories.map((category) => (
-              <div key={category.id}>
-                <div className="category-header">
-                  <h3 className="category-title">{category.title}</h3>
-                  <p className="category-description">
-                    {category.id === 'hallucinations' 
-                      ? 'Datasets focused on identifying and measuring hallucinations in model outputs.' 
-                      : 'Evaluation of model performance across different tasks and metrics.'}
-                  </p>
-                </div>
-                
-                <div className="dataset-grid">
-                  {category.datasets.map((dataset) => (
-                    <DatasetCard 
-                      key={dataset.id}
-                      dataset={dataset}
-                      onClick={() => openDatasetDetail(category.id, dataset.id)}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+      {/* Practical Applications Section */}
+      <section id="applications" className="applications-section">
+        <div className="container">
+          <div className="section-eyebrow">Real-World Impact</div>
+          <h2 className="section-title">Tangible Applications</h2>
+          <p className="section-description">Our research findings translate into practical applications that enhance AI system performance.</p>
+          
+          <div className="applications-grid">
+            <div className="application-card">
+              <div className="application-icon">⚡</div>
+              <h3 className="application-title">Mobile-First AI</h3>
+              <p className="application-description">
+                Enables complex language models to run efficiently on mobile devices with limited resources, expanding AI accessibility.
+              </p>
+            </div>
+            
+            <div className="application-card">
+              <div className="application-icon">💰</div>
+              <h3 className="application-title">Cost Reduction</h3>
+              <p className="application-description">
+                Significantly reduces cloud computing costs for AI inference at scale, making advanced AI more economically viable.
+              </p>
+            </div>
+            
+            <div className="application-card">
+              <div className="application-icon">🌱</div>
+              <h3 className="application-title">Environmental Impact</h3>
+              <p className="application-description">
+                Lower computational requirements translate to reduced energy consumption and smaller carbon footprint.
+              </p>
+            </div>
+            
+            <div className="application-card">
+              <div className="application-icon">⏱️</div>
+              <h3 className="application-title">Real-time Processing</h3>
+              <p className="application-description">
+                Faster inference enables real-time applications previously limited by computational constraints.
+              </p>
+            </div>
           </div>
-        ) : (
-          <ErrorMessage message="No research data available." />
-        )}
-      </Section>
+          
+          <div className="product-showcase">
+            <h3 className="showcase-title">Research-Driven Products</h3>
+            <div className="showcase-items">
+              <div className="product-item">
+                <div className="product-visual-placeholder">
+                  <p>Product Concept #1</p>
+                </div>
+                <h4 className="product-title">Adaptive Inference Engine</h4>
+                <p className="product-description">
+                  A drop-in replacement for standard inference pipelines that automatically optimizes computation based on input complexity.
+                </p>
+              </div>
+              
+              <div className="product-item">
+                <div className="product-visual-placeholder">
+                  <p>Product Concept #2</p>
+                </div>
+                <h4 className="product-title">Resource Allocation Framework</h4>
+                <p className="product-description">
+                  Open-source toolkit enabling developers to implement custom efficiency strategies for their AI models.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* In-depth Research Links */}
+      <section id="research-links" className="research-links-section">
+        <div className="container">
+          <div className="section-eyebrow">Detailed Research</div>
+          <h2 className="section-title">Explore Our Complete Findings</h2>
+          <p className="section-description">Dive deeper into our research with these comprehensive resources.</p>
+          
+          <div className="paper-links">
+            <a href="/papers/optimal-testtime" className="paper-link-card">
+              <div className="paper-icon">📄</div>
+              <div className="paper-content">
+                <h3 className="paper-title">Optimal Test-Time Computation</h3>
+                <p className="paper-description">A comprehensive analysis of adaptive computation allocation strategies for inference optimization.</p>
+                <span className="paper-cta">Read the full paper →</span>
+              </div>
+            </a>
+            
+            <a href="/papers/accuracy-efficiency-tradeoffs" className="paper-link-card">
+              <div className="paper-icon">📊</div>
+              <div className="paper-content">
+                <h3 className="paper-title">Accuracy-Efficiency Trade-offs</h3>
+                <p className="paper-description">An in-depth exploration of the balance between model performance and computational efficiency.</p>
+                <span className="paper-cta">Read the full paper →</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+      
+      {/* About Us / Thank You Section */}
+      <section id="about-us" className="about-us-section">
+        <div className="container">
+          <div className="thank-you-message">
+            <h2 className="thank-you-title">Thank You</h2>
+            <p className="thank-you-text">
+              This research was made possible through the collaborative efforts of our dedicated team and the support of our partners.
+            </p>
+          </div>
+          
+          <div className="about-us-content">
+            <h3 className="about-us-title">About Our Team</h3>
+            <p className="about-us-description">
+              We are a diverse group of researchers focused on making AI more efficient, accessible, and environmentally sustainable. Our team combines expertise in machine learning, systems optimization, and computational efficiency.
+            </p>
+            
+            <div className="team-members">
+              <div className="team-member">
+                <div className="member-placeholder"></div>
+                <h4 className="member-name">Dr. Alex Johnson</h4>
+                <p className="member-role">Principal Investigator</p>
+              </div>
+              
+              <div className="team-member">
+                <div className="member-placeholder"></div>
+                <h4 className="member-name">Dr. Maria Rodriguez</h4>
+                <p className="member-role">Research Lead</p>
+              </div>
+              
+              <div className="team-member">
+                <div className="member-placeholder"></div>
+                <h4 className="member-name">Dr. Sam Lee</h4>
+                <p className="member-role">Systems Architect</p>
+              </div>
+            </div>
+            
+            <div className="contact-info">
+              <h4 className="contact-title">Get in Touch</h4>
+              <p className="contact-text">
+                Interested in learning more about our research or exploring collaboration opportunities? 
+                Reach out to us at <a href="mailto:research@example.com" className="contact-link">research@example.com</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
       
       {/* Visualizations Section */}
       <Section 
