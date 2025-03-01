@@ -13,7 +13,7 @@ We investigate a novel approach to efficiently prune redundant reasoning attempt
 6. Keeps reasoning chains that are represented by embeddings at the centroid of the clusters
 7. Quantifies theoretical performance scaling using pass@k metrics
 
-## Directory Structure
+## Data (Can be found in the drive link below)
 
 - `responses/`: Contains JSON files with multiple solution attempts per math problem
 - `extracted_answers/`: Contains extracted final answers from each reasoning attempt
