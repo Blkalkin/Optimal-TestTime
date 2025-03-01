@@ -756,3 +756,74 @@ tr:hover td {
     grid-template-columns: 1fr;
   }
 }
+
+/* Title Section and Visualization Placeholders */
+.title-section {
+  padding: var(--space-16) 0 var(--space-10);
+  margin-top: 64px;
+}
+
+.main-title {
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: var(--space-12);
+  color: var(--text-primary);
+}
+
+.visualization-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.hypothesis-field {
+  margin-bottom: var(--space-4);
+}
+
+.hypothesis-field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: var(--space-2);
+  color: var(--text-secondary);
+}
+
+.hypothesis-field input {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--background-tertiary);
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  transition: border-color var(--transition-fast);
+}
+
+.hypothesis-field input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.visualization-placeholder {
+  background-color: var(--background-secondary);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  border: 1px dashed var(--background-tertiary);
+}
+
+@media (min-width: 768px) {
+  .main-title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main-title {
+    font-size: 3.5rem;
+  }
+}
