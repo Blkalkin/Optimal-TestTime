@@ -28,12 +28,12 @@ def query_fireworks_api(prompt, api_key=None, thinking_continuation=None):
     # Prepare the message
     payload = {
             "model": "accounts/fireworks/models/deepseek-r1",
-            "max_tokens": 2000,
+            "max_tokens": 250,
             "top_p": 1,
             "top_k": 40,
             "presence_penalty": 0,
             "frequency_penalty": 0,
-            "temperature": 0.6,
+            "temperature": 1.0,
             "messages": [
                 {
                     "role": "user",
@@ -47,12 +47,12 @@ def query_fireworks_api(prompt, api_key=None, thinking_continuation=None):
         url = "https://api.fireworks.ai/inference/v1/completions"
         payload = {
             "model": "accounts/fireworks/models/deepseek-r1",
-            "max_tokens": 20480,
+            "max_tokens": 10000,
             "top_p": 1,
             "top_k": 40,
             "presence_penalty": 0,
             "frequency_penalty": 0,
-            "temperature": 0.7,
+            "temperature": 1.0,
             "prompt": f"{prompt}\n\n<think>{thinking_continuation}"
         }
 
@@ -106,7 +106,10 @@ def extract_thinking(question_id, filename="responses.jsonl"):
             
             if thinking_match:
                 thinking = thinking_match.group(1).strip()
-    
+            elif "<think>" in content:
+                # If only opening tag is present, return everything after it
+                thinking = content.split("<think>", 1)[1].strip()
+            
     return thinking
 
 def generate_thinking_continuations(input_jsonl="responses.jsonl", output_jsonl="continuations.jsonl", num_continuations=3):
@@ -197,8 +200,26 @@ def process_continuations(continuations_jsonl="continuations.jsonl", output_json
         for line in f:
             continuations.append(json.loads(line.strip()))
 
-    # Process each continuation
-    for continuation in tqdm(continuations):
+    # Check for already processed questions
+    processed_question_ids = set()
+    if os.path.exists(output_jsonl):
+        with open(output_jsonl, "r") as f:
+            for line in f:
+                try:
+                    data = json.loads(line.strip())
+                    if "question_id" in data:
+                        processed_question_ids.add(data["question_id"])
+                except json.JSONDecodeError:
+                    continue
+    
+    # Filter out already processed continuations
+    remaining_continuations = [c for c in continuations if c["question_id"] not in processed_question_ids]
+    
+    if len(remaining_continuations) < len(continuations):
+        print(f"Resuming from where we left off. {len(continuations) - len(remaining_continuations)} questions already processed.")
+    
+    # Process each remaining continuation
+    for continuation in tqdm(remaining_continuations):
         question_id = continuation["question_id"]
         original_id = continuation.get("original_question_id", "unknown")
         question_text = continuation["question"]
@@ -230,7 +251,8 @@ def process_continuations(continuations_jsonl="continuations.jsonl", output_json
             "thinking_continuation": thinking is not None
         }, filename=output_jsonl)
     
-    print(f"All {len(continuations)} continuations have been processed and saved to {output_jsonl}")
+    print(f"All remaining {len(remaining_continuations)} continuations have been processed and saved to {output_jsonl}")
+    print(f"Total processed: {len(processed_question_ids) + len(remaining_continuations)} out of {len(continuations)}")
 
 def generate_initial_answers(num_examples=None, output_jsonl="simpleqa_responses.jsonl", api_key=None):
     """
