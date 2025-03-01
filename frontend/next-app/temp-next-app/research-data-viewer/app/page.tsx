@@ -282,6 +282,37 @@ export default function Home() {
     <div className="app">
       <Navigation />
       
+      {/* Title and Visualization Placeholders */}
+      <section className="title-section">
+        <div className="container">
+          <h1 className="main-title font-bold text-3xl md:text-4xl lg:text-5xl text-center my-8">
+            We made inference time compute more efficient and more accurate.
+          </h1>
+          
+          <div className="visualization-container">
+            <div className="visualization-wrapper">
+              <div className="hypothesis-field mb-4">
+                <label className="block text-sm font-medium mb-1">Hypothesis 1:</label>
+                <input type="text" className="w-full p-2 border rounded" placeholder="Enter your hypothesis here..." />
+              </div>
+              <div className="visualization-placeholder bg-gray-100 rounded-lg p-6 h-80 flex items-center justify-center">
+                <p className="text-gray-500">Visualization 1 placeholder</p>
+              </div>
+            </div>
+            
+            <div className="visualization-wrapper">
+              <div className="hypothesis-field mb-4">
+                <label className="block text-sm font-medium mb-1">Hypothesis 2:</label>
+                <input type="text" className="w-full p-2 border rounded" placeholder="Enter your hypothesis here..." />
+              </div>
+              <div className="visualization-placeholder bg-gray-100 rounded-lg p-6 h-80 flex items-center justify-center">
+                <p className="text-gray-500">Visualization 2 placeholder</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
       {/* Hero Section */}
       <section id="hero" className="hero">
         <div className="hero-content">
