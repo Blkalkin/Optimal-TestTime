@@ -108,7 +108,7 @@ const Navigation = () => {
       <div className="container navbar-container">
         <div className="logo">Research Data</div>
         <div className="nav-links">
-          <button className="nav-link" onClick={() => scrollToSection('hero')}>Home</button>
+          <button className="nav-link" onClick={() => scrollToSection('title-section')}>Home</button>
           <button className="nav-link" onClick={() => scrollToSection('about')}>About</button>
           <button className="nav-link" onClick={() => scrollToSection('datasets')}>Data</button>
           <button className="nav-link" onClick={() => scrollToSection('visualizations')}>Insights</button>
@@ -283,29 +283,32 @@ export default function Home() {
       <Navigation />
       
       {/* Title and Visualization Placeholders */}
-      <section className="title-section">
+      <section id="title-section" className="title-section">
         <div className="container">
-          <h1 className="main-title font-bold text-3xl md:text-4xl lg:text-5xl text-center my-8">
+          <h1 className="main-title">
             We made inference time compute more efficient and more accurate.
           </h1>
-          
+        </div>
+        
+        {/* Full-width visualizations */}
+        <div className="full-width-container">
           <div className="visualization-container">
             <div className="visualization-wrapper">
-              <div className="hypothesis-field mb-4">
+              <div className="hypothesis-field">
                 <label className="block text-sm font-medium mb-1">Hypothesis 1:</label>
                 <input type="text" className="w-full p-2 border rounded" placeholder="Enter your hypothesis here..." />
               </div>
-              <div className="visualization-placeholder bg-gray-100 rounded-lg p-6 h-80 flex items-center justify-center">
+              <div className="visualization-placeholder">
                 <p className="text-gray-500">Visualization 1 placeholder</p>
               </div>
             </div>
             
             <div className="visualization-wrapper">
-              <div className="hypothesis-field mb-4">
+              <div className="hypothesis-field">
                 <label className="block text-sm font-medium mb-1">Hypothesis 2:</label>
                 <input type="text" className="w-full p-2 border rounded" placeholder="Enter your hypothesis here..." />
               </div>
-              <div className="visualization-placeholder bg-gray-100 rounded-lg p-6 h-80 flex items-center justify-center">
+              <div className="visualization-placeholder">
                 <p className="text-gray-500">Visualization 2 placeholder</p>
               </div>
             </div>
@@ -411,7 +414,7 @@ export default function Home() {
         title="Key Findings" 
         description="Visualized results from our research highlighting important patterns and discoveries."
       >
-        <div className="visualization-container">
+        <div className="viz-container">
           <BarChart />
           <DonutChart />
         </div>

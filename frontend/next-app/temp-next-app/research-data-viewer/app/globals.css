@@ -107,6 +107,11 @@ button {
   padding: 0 var(--space-6);
 }
 
+.full-width-container {
+  width: 100%;
+  padding: 0 var(--space-8);
+}
+
 /* Navigation */
 .navbar {
   position: fixed;
@@ -169,6 +174,54 @@ button {
   transform: scaleX(1);
 }
 
+/* Title Section */
+.title-section {
+  padding-top: 120px; /* Account for navbar + extra space */
+  padding-bottom: var(--space-16);
+}
+
+.main-title {
+  font-weight: 800;
+  font-size: 4rem; /* 15% larger as requested */
+  line-height: 1.1;
+  text-align: center;
+  letter-spacing: -0.03em;
+  margin: var(--space-16) 0 var(--space-20);
+  max-width: 950px; /* Slightly wider */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title-visualizations {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--space-8);
+  margin-top: var(--space-12);
+}
+
+.visualization-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-8);
+}
+
+.visualization-wrapper {
+  margin-bottom: 0; /* No bottom margin since we're using gap */
+}
+
+.visualization-placeholder {
+  background-color: var(--background-secondary);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  height: 340px; /* Slightly taller */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  border: 1px dashed var(--background-tertiary);
+}
+
 /* Hero Section */
 .hero {
   min-height: 90vh;
@@ -177,7 +230,6 @@ button {
   justify-content: center;
   text-align: center;
   padding: var(--space-16) 0;
-  margin-top: 64px;
 }
 
 .hero-content {
@@ -384,7 +436,7 @@ button {
 }
 
 /* Visualizations */
-.visualization-container {
+.viz-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: var(--space-8);
@@ -674,6 +726,43 @@ tr:hover td {
   margin: var(--space-6) 0;
 }
 
+/* Form elements */
+input[type="text"] {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--background-tertiary);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  transition: all var(--transition-fast);
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(3, 102, 214, 0.2);
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: var(--space-2);
+  color: var(--text-primary);
+}
+
+.hypothesis-field {
+  margin-bottom: var(--space-4);
+}
+
+.hypothesis-field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: var(--space-2);
+  color: var(--text-secondary);
+}
+
 /* Animations */
 @keyframes spinner {
   to {
@@ -718,6 +807,10 @@ tr:hover td {
   .about-content {
     grid-template-columns: 1fr;
   }
+  
+  .main-title {
+    font-size: 2.75rem;
+  }
 }
 
 @media (max-width: 640px) {
@@ -755,75 +848,15 @@ tr:hover td {
   .visualization-container {
     grid-template-columns: 1fr;
   }
-}
-
-/* Title Section and Visualization Placeholders */
-.title-section {
-  padding: var(--space-16) 0 var(--space-10);
-  margin-top: 64px;
-}
-
-.main-title {
-  font-weight: 700;
-  font-size: 2.5rem;
-  line-height: 1.2;
-  text-align: center;
-  margin-bottom: var(--space-12);
-  color: var(--text-primary);
-}
-
-.visualization-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.hypothesis-field {
-  margin-bottom: var(--space-4);
-}
-
-.hypothesis-field label {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: var(--space-2);
-  color: var(--text-secondary);
-}
-
-.hypothesis-field input {
-  width: 100%;
-  padding: var(--space-3);
-  border: 1px solid var(--background-tertiary);
-  border-radius: var(--radius);
-  font-size: 0.9375rem;
-  transition: border-color var(--transition-fast);
-}
-
-.hypothesis-field input:focus {
-  outline: none;
-  border-color: var(--accent-primary);
-}
-
-.visualization-placeholder {
-  background-color: var(--background-secondary);
-  border-radius: var(--radius);
-  padding: var(--space-6);
-  height: 320px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-tertiary);
-  border: 1px dashed var(--background-tertiary);
-}
-
-@media (min-width: 768px) {
+  
   .main-title {
-    font-size: 3rem;
+    font-size: 2.25rem;
+    margin: var(--space-8) 0;
   }
 }
 
 @media (min-width: 1024px) {
   .main-title {
-    font-size: 3.5rem;
+    font-size: 4rem; /* Even larger on big screens */
   }
 }
