@@ -1,6 +1,5 @@
-# Reasoning Chain Pruning for Mathematical Problem Solving
-
-This repository contains code for our research on pruning parallel reasoning chains to improve inference time scaling efficiency in mathematical problem solving. This is a theoretical approach to demonstrate how much performance can be improved - with an efficient implementation on the way.
+# Reasoning Chain Pruning for inference efficiency
+This repository contains code for our research on pruning parallel reasoning chains to improve inference time scaling efficiency in mathematical problem solving. This is a theoretical approach to demonstrate how much performance can be improved - with an efficient hardware implementation on the way.
 
 ## Research Overview
 
