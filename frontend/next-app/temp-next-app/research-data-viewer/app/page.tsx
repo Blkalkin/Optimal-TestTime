@@ -135,6 +135,58 @@ const ErrorMessage = ({ message }: { message: string }) => (
   <div className="error-message">{message}</div>
 );
 
+// Mapping of mentions to their respective URLs
+const mentionUrls: {[key: string]: string} = {
+  JargonLearn: "https://jargonlearn.com",
+  Empathy: "https://empathy.zone",
+  USC: "https://www.usc.edu",
+  Adapt: "https://www.adaptinsurance.com/",
+  Coreweave: "https://coreweave.com",
+  Northflank: "https://northflank.com",
+  Anthropic: "https://anthropic.com",
+  Cognition: "https://cognition.dev",
+  Etched: "https://etched.ai"
+};
+
+// Function to convert @mentions to links with specific URLs
+const renderWithMentions = (text: string) => {
+  // Pattern to match @mentions
+  const mentionPattern = /@([a-zA-Z0-9_]+)/g;
+  
+  // Split the text by mentions
+  const parts = text.split(mentionPattern);
+  
+  if (parts.length === 1) return text;
+  
+  const result = [];
+  for (let i = 0; i < parts.length; i++) {
+    // Add the regular text
+    result.push(parts[i]);
+    
+    // Add the mention as a link if there is one
+    if (i < parts.length - 1 && parts[i+1]) {
+      const mention = parts[i+1];
+      const url = mentionUrls[mention] || `https://twitter.com/${mention}`; // Fallback to Twitter if no specific URL
+      
+      result.push(
+        <a 
+          key={i} 
+          href={url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="mention-link"
+        >
+          @{mention}
+        </a>
+      );
+      // Skip the next part as we've already used it
+      i++;
+    }
+  }
+  
+  return result;
+};
+
 export default function Home() {
   const [data, setData] = useState<ResearchData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -443,10 +495,11 @@ export default function Home() {
             <h2 className="thank-you-title">Thank You</h2>
             <p className="thank-you-text">
               This research was made possible through the Cognition X Mercor X Etched Hackathon.
-              We want to thank @Coreweave through @Northflank for providing acces to 8 x H100s and their team for trouble shooting with us.
+              We want to thank {renderWithMentions("@Coreweave")} through {renderWithMentions("@Northflank")} for providing acces to 8 x H100s and their team for trouble shooting with us.
               Thank you Mercor for the office space and organizing the event.
-              Thanks to @Anthropic for the credits to use Claude Code and Sonnet, and to @Cognition for Devin access.
-              Special thanks to @Etched for extremely interesting conversations and guidance.
+              Thanks to {renderWithMentions("@Anthropic")} for the credits to use Claude Code and Sonnet, and to {renderWithMentions("@Cognition")} for Devin access.
+              Very special thanks to {renderWithMentions("@Etched")} for extremely interesting late night conversations and guidance.
+              And finally thank you to all other participants for great time hacking in FIDI!
             </p>
           </div>
           
@@ -459,20 +512,44 @@ export default function Home() {
             <div className="team-members">
               <div className="team-member">
                 <div className="member-placeholder"></div>
-                <h4 className="member-name">Vijay Kumaravel</h4>
-                <p className="member-role">Cofounder @JargonLearn & @Empathy, Researcher/Junior @USC</p>
+                <h4 className="member-name">
+                  <a href="https://www.linkedin.com/in/vijay-kumaravel" target="_blank" rel="noopener noreferrer">
+                    Vijay Kumaravel
+                  </a>
+                  {" · "}
+                  <a href="https://github.com/VijayGKR" target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                </h4>
+                <p className="member-role">{renderWithMentions("Cofounder @JargonLearn & @Empathy, Researcher/Junior @USC")}</p>
               </div>
               
               <div className="team-member">
                 <div className="member-placeholder"></div>
-                <h4 className="member-name">David Bai</h4>
-                <p className="member-role">Cofounder @JargonLearn & @Empathy, Researcher/Sophmore @USC</p>
+                <h4 className="member-name">
+                  <a href="https://www.linkedin.com/in/david-bai" target="_blank" rel="noopener noreferrer">
+                    David Bai
+                  </a>
+                  {" · "}
+                  <a href="https://github.com/dav1dbai" target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                </h4>
+                <p className="member-role">{renderWithMentions("Cofounder @JargonLearn & @Empathy, Researcher/Sophmore @USC")}</p>
               </div>
 
               <div className="team-member">
                 <div className="member-placeholder"></div>
-                <h4 className="member-name">Balaji Kumaravel</h4>
-                <p className="member-role">Founding Engineer @Adapt API, ex-Quantative Trading Engineer</p>
+                <h4 className="member-name">
+                  <a href="https://www.linkedin.com/in/balaji-kumaravel-5044a0166" target="_blank" rel="noopener noreferrer">
+                    Balaji Kumaravel
+                  </a>
+                  {" · "}
+                  <a href="https://github.com/Blkalkin/" target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                </h4>
+                <p className="member-role">{renderWithMentions("Founding Engineer @Adapt API, ex-Quantative Trading Engineer")}</p>
               </div>
             </div>
             
