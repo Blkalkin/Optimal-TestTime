@@ -110,7 +110,7 @@ const Navigation = () => {
   return (
     <nav className="navbar">
       <div className="container navbar-container">
-        <div className="logo">Optimal TestTime</div>
+        <div className="logo">Optimal-TestTime</div> // need logo
         <div className="nav-links">
           <button className="nav-link" onClick={() => scrollToSection('title-section')}>Home</button>
           <button className="nav-link" onClick={() => scrollToSection('hypothesis-one')}>Efficiency</button>
@@ -286,7 +286,7 @@ export default function Home() {
       <section id="title-section" className="title-section">
         <div className="container">
           <h1 className="main-title">
-            We made inference time compute more efficient and more accurate.
+            We made inference time compute scaling more efficient, and used it to make LLMs more accurate.
           </h1>
         </div>
         
@@ -296,10 +296,15 @@ export default function Home() {
             <div className="visualization-wrapper">
               <div className="hypothesis-display">
                 <h3 className="hypothesis-title">Efficiency: Parallel Reasoning Chain Pruning</h3>
-                <p className="hypothesis-description">By evaluating the semantic similarity between reasoning chains at various stages and pruning similar paths while introducing diverse alternatives, we can achieve the same accuracy benefits of best-of-10^n approaches at significantly reduced computational cost.</p>
+                <p className="hypothesis-description">By evaluating the semantic similarity between reasoning chains at various stages and pruning similar paths early on in the decoding process, we can achieve the same accuracy as sampling 50 approaches <strong>while only decoding 10 to completion</strong></p>
               </div>
               <div className="visualization-placeholder">
-                <p className="text-gray-500">Visualization 1 placeholder</p>
+                <img 
+                  src="/images/papers/optimal-testtime/original_custom_pass_at_k.png"
+                  alt="Graph showing efficiency gains from parallel reasoning chain pruning"
+                  className="visualization-image"
+                  style={{maxWidth: "60%", height: "auto"}}
+                />
               </div>
             </div>
             
@@ -325,13 +330,13 @@ export default function Home() {
             <div className="hypothesis-content">
               <div className="hypothesis-text">
                 <p className="hypothesis-lead">
-                  Our research demonstrates that <strong>adaptive computation allocation</strong> during inference can lead to efficiency gains of up to <span className="highlight-stat">47%</span> while maintaining output quality.
+                  Our research demonstrates that <strong>parallel reasoning chain pruning</strong> can achieve the same accuracy as sampling 50 approaches <strong>while pruning 80% of the reasoning chains at only 300 tokens decoded.</strong>
                 </p>
                 <p>
-                  By analyzing the computational demands of various inference tasks, we identified patterns where certain model components could be conditionally activated based on input complexity. This allowed us to develop a dynamic routing mechanism that allocates computational resources more effectively.
+                  As reasoning LLMs grow more and more popular for use in production coding and mathematics - domains with strong verifiers - we believe that decoding many reasoning chains in parallel for a prompt will become a common practice to scale inference time compute and improve performance.
                 </p>
                 <p>
-                  The results show that for common inference tasks, nearly half of the typical computation can be avoided without meaningful degradation in output quality, creating significant opportunities for faster, more efficient AI systems.
+                  However, these reasoning chains can go on for tens of thousands of tokens, and take up valuable bandwidth during inference (in both GPUs and custom ASICS like Sohu). Instead of decoding reasoning chains that we can predict will be redundant, we can prune them early on in the decoding process via the methdology we describe.
                 </p>
               </div>
               <div className="hypothesis-visual">
@@ -358,13 +363,13 @@ export default function Home() {
               </div>
               <div className="hypothesis-text">
                 <p className="hypothesis-lead">
-                  We discovered that <strong>strategic computational resource allocation</strong> can achieve an optimal balance between model accuracy and inference speed, creating a <span className="highlight-stat">30%</span> efficiency improvement with minimal accuracy loss.
+                  We discovered that by <strong>allowing reasoning models to self correct their answers to hallucination benchmarks</strong> and analyzing the diversity of their reasoning as a hueristic for model confidence, we can detect model hallucations at a higher rate and <strong> offer refusals instead of a confidently incorrect answer </strong>
                 </p>
                 <p>
-                  Traditional approaches often treat all inputs equally, resulting in wasted computation for simpler queries and insufficient depth for complex ones. Our research developed a framework that dynamically adjusts computational depth based on task complexity.
+                  This allows us to offer a <strong>confidence-based compute allocation</strong> mechanism that can offer a model that is capable of <strong>knowing when its wrong</strong> instead of outputing something misleading.
                 </p>
                 <p>
-                  This adaptive approach allows deployment of more efficient models in resource-constrained environments while preserving the high-quality outputs users expect.
+                  We prove this out on the SimpleQA benchmark, where our method shows a marked improvement in <strong>providing refusals</strong> instead of confidently incorrect answers.
                 </p>
               </div>
             </div>
@@ -388,7 +393,7 @@ export default function Home() {
               <div className="key-benefits">
                 <div className="benefit-item">
                   <span className="benefit-icon">💰</span>
-                  <span className="benefit-text"><strong>40% cost reduction</strong> through strategic resource allocation</span>
+                  <span className="benefit-text"><strong>80% less tokens generated for the same performance </strong> through strategic resource allocation</span>
                 </div>
                 <div className="benefit-item">
                   <span className="benefit-icon">🌱</span>
@@ -402,7 +407,7 @@ export default function Home() {
             </div>
             <div className="gpu-shortage-tweet">
               <div className="tweet-placeholder">
-                <p className="tweet-content">"Sam Altman tweet"</p>
+                <p className="tweet-content">"...we will add tens of thousands of GPUs next week and roll it out to the plus tier then. (hundreds of thousands coming soon, and i'm pretty sure y'all will use every one we can rack up.)..."</p>
                 <p className="tweet-author">— Sam Altman</p>
               </div>
             </div>
@@ -418,7 +423,7 @@ export default function Home() {
               <div className="impact-item">
                 <h4 className="impact-company">Etched → Sohu</h4>
                 <p className="impact-text">
-                  Sohu, the world's first specialized chip (ASIC) for transformers, could leverage our "parallel reasoning chain pruning" to maximize throughput. By "pruning", Sohu can match the ever-increasing demand for AI compute with significantly higher efficiency than general-purpose GPUs, leading to new paradigms not currently imaginable.
+                  Sohu, the world's first specialized chip (ASIC) for transformers, could leverage our "parallel reasoning chain pruning" to maximize throughput. By "pruning", Sohu can cut redudant reasoning chains early on, and fill the remaining bandwidth with more user requests, without sacrificing on quality. 
                 </p>
               </div>
               
@@ -432,7 +437,7 @@ export default function Home() {
               <div className="impact-item">
                 <h4 className="impact-company">Mercor</h4>
                 <p className="impact-text">
-                  For AI-driven development platforms like Mercor, our "refusal research could enhance the accuracy of technical solutions while maintaining responsiveness, while our "pruning research" could enable "n-50 etc".
+                  For AI-driven development platforms like Mercor, our refusal research could enhance the accuracy of technical solutions while maintaining responsiveness, while our "pruning research" could enable more efficient inference time scaling for their matching agents.
                 </p>
               </div>
             </div>
