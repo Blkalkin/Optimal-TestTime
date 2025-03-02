@@ -560,7 +560,7 @@ export default function Home() {
               <h4 className="contact-title">Get in Touch</h4>
               <p className="contact-text">
                 Interested in learning more about our research or exploring collaboration opportunities? 
-                Reach out to us at <a href="mailto:research@example.com" className="contact-link">research@example.com</a>
+                Reach out to us at our LinkedIn profiles!
               </p>
             </div>
           </div>

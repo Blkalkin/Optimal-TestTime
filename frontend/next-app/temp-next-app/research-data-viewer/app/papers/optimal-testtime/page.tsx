@@ -14,8 +14,8 @@ const Navigation = () => {
         </div>
         <div className="nav-links">
           <Link href="/" className="nav-link">Home</Link>
-          <Link href="/papers/optimal-testtime" className="nav-link active">Optimal Test-Time</Link>
-          <Link href="/papers/accuracy-efficiency-tradeoffs" className="nav-link">Accuracy-Efficiency</Link>
+          <Link href="/papers/optimal-testtime" className="nav-link active">Parallel Reasoning Pruning</Link>
+          <Link href="/papers/accuracy-efficiency-tradeoffs" className="nav-link">Hallucination Detection</Link>
         </div>
       </div>
     </nav>
