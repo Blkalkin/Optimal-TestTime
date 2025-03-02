@@ -103,6 +103,10 @@ const Navigation = () => {
     }
   };
 
+  const navigateTo = (url: string) => {
+    window.location.href = url;
+  };
+
   return (
     <nav className="navbar">
       <div className="container navbar-container">
@@ -113,6 +117,8 @@ const Navigation = () => {
           <button className="nav-link" onClick={() => scrollToSection('hypothesis-two')}>Accuracy</button>
           <button className="nav-link" onClick={() => scrollToSection('applications')}>Applications</button>
           <button className="nav-link" onClick={() => scrollToSection('research-links')}>Research</button>
+          <button className="nav-link" onClick={() => navigateTo('/papers/optimal-testtime')}>Optimal Test-Time</button>
+          <button className="nav-link" onClick={() => navigateTo('/papers/accuracy-efficiency-tradeoffs')}>Accuracy-Efficiency</button>
           <button className="nav-link" onClick={() => scrollToSection('about-us')}>About</button>
         </div>
       </div>
