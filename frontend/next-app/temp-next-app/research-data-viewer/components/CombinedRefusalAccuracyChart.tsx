@@ -1,13 +1,5 @@
-'use client';
-
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
-
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: any[];
-  label?: string;
-}
 
 const CombinedRefusalAccuracyChart = () => {
   const [dataset, setDataset] = useState('averaged');
@@ -211,7 +203,7 @@ const CombinedRefusalAccuracyChart = () => {
     }
   };
 
-  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-4 border border-gray-200 rounded shadow-md">
