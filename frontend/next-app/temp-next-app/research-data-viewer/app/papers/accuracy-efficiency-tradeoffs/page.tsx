@@ -5,10 +5,29 @@ import Link from 'next/link';
 import CombinedRefusalAccuracyChart from "../../../components/CombinedRefusalAccuracyChart";
 
 // Figure component for displaying images with captions
-const Figure = ({ src, alt, title, caption }: { src: string; alt: string; title: string; caption: string }) => {
+const Figure = ({ 
+  src, 
+  alt, 
+  title, 
+  caption,
+  width,
+  height 
+}: { 
+  src: string; 
+  alt: string; 
+  title: string; 
+  caption: string;
+  width?: string | number;
+  height?: string | number;
+}) => {
   return (
     <figure className="paper-figure">
-      <img src={src} alt={alt} className="paper-image" />
+      <img 
+        src={src} 
+        alt={alt} 
+        className="paper-image" 
+        style={width || height ? { width: width || 'auto', height: height || 'auto' } : undefined} 
+      />
       <figcaption>
         <span className="figure-title">{title}</span>
         <span className="figure-caption">{caption}</span>
@@ -331,10 +350,12 @@ export default function InterruptionPaper() {
             </p>
             
             <Figure 
-              src="/images/papers/interruption-paper/embedding-comparison.png"
+              src="/images/papers/interruption-paper/matrix500.png"
               alt="Embedding similarity matrix"
               title="Figure 4: Embedding Similarity Matrix"
               caption="Cosine similarity between embeddings of different reasoning chains, showing high similarity despite meaningful reasoning differences."
+              width="80%" 
+              height="auto"
             />
             
             <p>
