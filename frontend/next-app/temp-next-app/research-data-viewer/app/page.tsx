@@ -117,8 +117,8 @@ const Navigation = () => {
           <button className="nav-link" onClick={() => scrollToSection('hypothesis-two')}>Accuracy</button>
           <button className="nav-link" onClick={() => scrollToSection('applications')}>Applications</button>
           <button className="nav-link" onClick={() => scrollToSection('research-links')}>Research</button>
-          <button className="nav-link" onClick={() => navigateTo('/papers/optimal-testtime')}>Optimal Test-Time</button>
-          <button className="nav-link" onClick={() => navigateTo('/papers/accuracy-efficiency-tradeoffs')}>Accuracy-Efficiency</button>
+          <button className="nav-link" onClick={() => navigateTo('/papers/optimal-testtime')}>Parallel Reasoning Pruning</button>
+          <button className="nav-link" onClick={() => navigateTo('/papers/accuracy-efficiency-tradeoffs')}>Hallucination Detection</button>
           <button className="nav-link" onClick={() => scrollToSection('about-us')}>About</button>
         </div>
       </div>
@@ -461,8 +461,8 @@ export default function Home() {
             <a href="/papers/optimal-testtime" className="paper-link-card">
               <div className="paper-icon">📄</div>
               <div className="paper-content">
-                <h3 className="paper-title">Optimal Test-Time Computation</h3>
-                <p className="paper-description">A comprehensive analysis of adaptive computation allocation strategies for inference optimization.</p>
+                <h3 className="paper-title">Parallel Reasoning Chain Pruning</h3>
+                <p className="paper-description">Encouraging efficiency in inference-time compute by pruning redundant reasoning chains early on.</p>
                 <span className="paper-cta">Read the full paper →</span>
               </div>
             </a>
@@ -470,8 +470,8 @@ export default function Home() {
             <a href="/papers/accuracy-efficiency-tradeoffs" className="paper-link-card">
               <div className="paper-icon">📊</div>
               <div className="paper-content">
-                <h3 className="paper-title">Accuracy-Efficiency Trade-offs</h3>
-                <p className="paper-description">An in-depth exploration of the balance between model performance and computational efficiency.</p>
+                <h3 className="paper-title">Hallucination Detection</h3>
+                <p className="paper-description">Detecting and rejecting hallucinations at inference time with diversity-based analyses of parallel reasoning chains.</p>
                 <span className="paper-cta">Read the full paper →</span>
               </div>
             </a>
