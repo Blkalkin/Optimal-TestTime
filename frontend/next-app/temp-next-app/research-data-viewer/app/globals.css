@@ -894,6 +894,155 @@ label {
   line-height: 1.6;
 }
 
+/* GPU Shortage Container */
+.gpu-shortage-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  margin-bottom: var(--space-16);
+  background-color: var(--background-secondary);
+  border-radius: var(--radius);
+  padding: var(--space-8);
+}
+
+.gpu-shortage-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.shortage-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+  color: var(--text-primary);
+}
+
+.shortage-description {
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  line-height: 1.6;
+}
+
+.key-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.benefit-icon {
+  font-size: 1.25rem;
+}
+
+.benefit-text strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.gpu-shortage-tweet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tweet-placeholder {
+  background-color: var(--background-primary);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  width: 100%;
+  box-shadow: var(--shadow-light);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.tweet-content {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.tweet-author {
+  font-size: 0.9375rem;
+  color: var(--text-tertiary);
+  text-align: right;
+}
+
+/* Company Impact Styles */
+.company-impact {
+  margin: var(--space-16) 0;
+  padding: var(--space-8);
+  background-color: var(--background-secondary);
+  border-radius: var(--radius);
+}
+
+.impact-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: var(--space-6);
+  color: var(--text-primary);
+}
+
+.impact-description {
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-8);
+  line-height: 1.6;
+}
+
+.impact-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-8);
+}
+
+.impact-item {
+  padding: var(--space-6);
+  background-color: var(--background-primary);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-light);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.impact-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.impact-company {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+}
+
+.impact-company::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-primary);
+  margin-right: var(--space-3);
+}
+
+.impact-text {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
 .product-showcase {
   margin-top: var(--space-16);
 }
@@ -1167,6 +1316,14 @@ label {
   .team-members {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
+  
+  .gpu-shortage-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .tweet-content {
+    font-size: 1.125rem;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1195,6 +1352,8 @@ label {
   .nav-links {
     width: 100%;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
   }
   
   .section {
@@ -1231,6 +1390,10 @@ label {
   }
   
   .team-members {
+    grid-template-columns: 1fr;
+  }
+  
+  .impact-items {
     grid-template-columns: 1fr;
   }
 }

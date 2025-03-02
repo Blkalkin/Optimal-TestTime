@@ -106,12 +106,13 @@ const Navigation = () => {
   return (
     <nav className="navbar">
       <div className="container navbar-container">
-        <div className="logo">Research Data</div>
+        <div className="logo">Optimal TestTime</div>
         <div className="nav-links">
           <button className="nav-link" onClick={() => scrollToSection('title-section')}>Home</button>
-          <button className="nav-link" onClick={() => scrollToSection('hypothesis-one')}>Hypothesis 1</button>
-          <button className="nav-link" onClick={() => scrollToSection('hypothesis-two')}>Hypothesis 2</button>
+          <button className="nav-link" onClick={() => scrollToSection('hypothesis-one')}>Efficiency</button>
+          <button className="nav-link" onClick={() => scrollToSection('hypothesis-two')}>Accuracy</button>
           <button className="nav-link" onClick={() => scrollToSection('applications')}>Applications</button>
+          <button className="nav-link" onClick={() => scrollToSection('research-links')}>Research</button>
           <button className="nav-link" onClick={() => scrollToSection('about-us')}>About</button>
         </div>
       </div>
@@ -133,66 +134,6 @@ const LoadingSpinner = () => (
 const ErrorMessage = ({ message }: { message: string }) => (
   <div className="error-message">{message}</div>
 );
-
-// Bar chart visualization
-const BarChart = () => {
-  return (
-    <div className="visualization-card">
-      <div className="viz-header">
-        <h3 className="viz-title">Hallucination Rates by Model</h3>
-        <div className="viz-subtitle">Percentage of hallucinated responses</div>
-      </div>
-      <div className="viz-body">
-        <div className="bar-chart">
-          <div className="bar" style={{ height: '60%' }}>
-            <div className="bar-value">15%</div>
-            <div className="bar-label">Model A</div>
-          </div>
-          <div className="bar" style={{ height: '75%' }}>
-            <div className="bar-value">22%</div>
-            <div className="bar-label">Model B</div>
-          </div>
-          <div className="bar" style={{ height: '40%' }}>
-            <div className="bar-value">9%</div>
-            <div className="bar-label">Model C</div>
-          </div>
-          <div className="bar" style={{ height: '90%' }}>
-            <div className="bar-value">32%</div>
-            <div className="bar-label">Model D</div>
-          </div>
-        </div>
-      </div>
-      <div className="viz-footer">
-        Based on analysis of 500 question-answer pairs
-      </div>
-    </div>
-  );
-};
-
-// Donut chart visualization
-const DonutChart = () => {
-  return (
-    <div className="visualization-card">
-      <div className="viz-header">
-        <h3 className="viz-title">Response Accuracy</h3>
-        <div className="viz-subtitle">Overall accuracy across datasets</div>
-      </div>
-      <div className="viz-body">
-        <div className="donut-chart">
-          <div className="donut-segment" style={{ transform: 'rotate(0deg)', background: 'var(--accent-primary)' }}></div>
-          <div className="donut-segment" style={{ transform: 'rotate(270deg)', background: 'var(--background-tertiary)' }}></div>
-          <div className="donut-center">
-            <div className="donut-value">76%</div>
-            <div className="donut-label">Accuracy</div>
-          </div>
-        </div>
-      </div>
-      <div className="viz-footer">
-        Based on aggregated results from all test datasets
-      </div>
-    </div>
-  );
-};
 
 export default function Home() {
   const [data, setData] = useState<ResearchData | null>(null);
@@ -296,8 +237,8 @@ export default function Home() {
           <div className="visualization-container">
             <div className="visualization-wrapper">
               <div className="hypothesis-display">
-                <h3 className="hypothesis-title">Hypothesis 1: Optimal Test-Time Computation</h3>
-                <p className="hypothesis-description">Adaptive computation allocation during inference leads to significant efficiency gains while maintaining output quality.</p>
+                <h3 className="hypothesis-title">Efficiency: Parallel Reasoning Chain Pruning</h3>
+                <p className="hypothesis-description">By evaluating the semantic similarity between reasoning chains at various stages and pruning similar paths while introducing diverse alternatives, we can achieve the same accuracy benefits of best-of-10^n approaches at significantly reduced computational cost.</p>
               </div>
               <div className="visualization-placeholder">
                 <p className="text-gray-500">Visualization 1 placeholder</p>
@@ -306,8 +247,8 @@ export default function Home() {
             
             <div className="visualization-wrapper">
               <div className="hypothesis-display">
-                <h3 className="hypothesis-title">Hypothesis 2: Accuracy-Efficiency Trade-offs</h3>
-                <p className="hypothesis-description">Strategic computational resource allocation can balance the trade-off between model accuracy and inference speed.</p>
+                <h3 className="hypothesis-title">Accuracy: Inference-Time Hallucination Detection via Self-Verification</h3>
+                <p className="hypothesis-description">By having reasoning LLMs extend their thinking with self-verification statements after reaching an answer, we can implement a majority-vote mechanism to detect hallucinations, enabling confidence-based compute allocation for improved accuracy on various benchmarks.</p>
               </div>
               <div className="visualization-placeholder">
                 <p className="text-gray-500">Visualization 2 placeholder</p>
@@ -321,8 +262,8 @@ export default function Home() {
       <section id="hypothesis-one" className="hypothesis-section">
         <div className="container">
           <div className="hypothesis-detail">
-            <div className="hypothesis-eyebrow">Hypothesis One</div>
-            <h2 className="hypothesis-detail-title">Optimal Test-Time Computation</h2>
+            <div className="hypothesis-eyebrow">Efficiency</div>
+            <h2 className="hypothesis-detail-title">Parallel Reasoning Chain Pruning</h2>
             <div className="hypothesis-content">
               <div className="hypothesis-text">
                 <p className="hypothesis-lead">
@@ -349,8 +290,8 @@ export default function Home() {
       <section id="hypothesis-two" className="hypothesis-section alt-background">
         <div className="container">
           <div className="hypothesis-detail">
-            <div className="hypothesis-eyebrow">Hypothesis Two</div>
-            <h2 className="hypothesis-detail-title">Accuracy-Efficiency Trade-offs</h2>
+            <div className="hypothesis-eyebrow">Accuracy</div>
+            <h2 className="hypothesis-detail-title">Inference-Time Hallucination Detection via Self-Verification</h2>
             <div className="hypothesis-content reverse">
               <div className="hypothesis-visual">
                 <div className="detail-visual-placeholder">
@@ -378,39 +319,64 @@ export default function Home() {
         <div className="container">
           <div className="section-eyebrow">Real-World Impact</div>
           <h2 className="section-title">Tangible Applications</h2>
-          <p className="section-description">Our research findings translate into practical applications that enhance AI system performance.</p>
+          <p className="section-description">Our optimal test-time computation research potentially addresses critical challenges in AI deployment.</p>
           
-          <div className="applications-grid">
-            <div className="application-card">
-              <div className="application-icon">⚡</div>
-              <h3 className="application-title">Mobile-First AI</h3>
-              <p className="application-description">
-                Enables complex language models to run efficiently on mobile devices with limited resources, expanding AI accessibility.
+          <div className="gpu-shortage-container">
+            <div className="gpu-shortage-content">
+              <h3 className="shortage-title">We're out of GPUs</h3>
+              <p className="shortage-description">
+                As AI capabilities expand, we're facing unprecedented demand for compute. Our research could offer optimizations that help alleviate this bottleneck.
               </p>
+              <div className="key-benefits">
+                <div className="benefit-item">
+                  <span className="benefit-icon">💰</span>
+                  <span className="benefit-text"><strong>40% cost reduction</strong> through strategic resource allocation</span>
+                </div>
+                <div className="benefit-item">
+                  <span className="benefit-icon">🌱</span>
+                  <span className="benefit-text"><strong>Significantly lower</strong> energy consumption and carbon footprint</span>
+                </div>
+                <div className="benefit-item">
+                  <span className="benefit-icon">🛡️</span>
+                  <span className="benefit-text"><strong>Enhanced reliability</strong> through reduced hallucinations</span>
+                </div>
+              </div>
             </div>
-            
-            <div className="application-card">
-              <div className="application-icon">💰</div>
-              <h3 className="application-title">Cost Reduction</h3>
-              <p className="application-description">
-                Significantly reduces cloud computing costs for AI inference at scale, making advanced AI more economically viable.
-              </p>
+            <div className="gpu-shortage-tweet">
+              <div className="tweet-placeholder">
+                <p className="tweet-content">"Sam Altman tweet"</p>
+                <p className="tweet-author">— Sam Altman</p>
+              </div>
             </div>
+          </div>
+          
+          <div className="company-impact">
+            <h3 className="impact-title">Industry Applications</h3>
+            <p className="impact-description">
+              Our research enables breakthrough capabilities for leading AI innovators:
+            </p>
             
-            <div className="application-card">
-              <div className="application-icon">🌱</div>
-              <h3 className="application-title">Environmental Impact</h3>
-              <p className="application-description">
-                Lower computational requirements translate to reduced energy consumption and smaller carbon footprint.
-              </p>
-            </div>
-            
-            <div className="application-card">
-              <div className="application-icon">⏱️</div>
-              <h3 className="application-title">Real-time Processing</h3>
-              <p className="application-description">
-                Faster inference enables real-time applications previously limited by computational constraints.
-              </p>
+            <div className="impact-items">
+              <div className="impact-item">
+                <h4 className="impact-company">Etched → Sohu</h4>
+                <p className="impact-text">
+                  Sohu, the world's first specialized chip (ASIC) for transformers, could leverage our "parallel reasoning chain pruning" to maximize throughput. By "pruning", Sohu can match the ever-increasing demand for AI compute with significantly higher efficiency than general-purpose GPUs, leading to new paradigms not currently imaginable.
+                </p>
+              </div>
+              
+              <div className="impact-item">
+                <h4 className="impact-company">Cognition (Devin)</h4>
+                <p className="impact-text">
+                  Devin, the AI software engineer, requires high factual accuracy and efficient resource usage when working across large codebases, while not generating any errors. Our refusal research could enable more reliable code generation, making autonomous coding systems like Devin more powerful.
+                </p>
+              </div>
+              
+              <div className="impact-item">
+                <h4 className="impact-company">Mercor</h4>
+                <p className="impact-text">
+                  For AI-driven development platforms like Mercor, our "refusal research could enhance the accuracy of technical solutions while maintaining responsiveness, while our "pruning research" could enable "n-50 etc".
+                </p>
+              </div>
             </div>
           </div>
           
@@ -419,21 +385,21 @@ export default function Home() {
             <div className="showcase-items">
               <div className="product-item">
                 <div className="product-visual-placeholder">
-                  <p>Product Concept #1</p>
+                  <p>World Models</p>
                 </div>
-                <h4 className="product-title">Adaptive Inference Engine</h4>
+                <h4 className="product-title">World Model Optimization</h4>
                 <p className="product-description">
-                  A drop-in replacement for standard inference pipelines that automatically optimizes computation based on input complexity.
+                  Our research could enable more efficient world models that can simulate complex environments with selective computation, focusing resources on the most informative aspects of the simulation while maintaining fidelity. S/O @etched.
                 </p>
               </div>
               
               <div className="product-item">
                 <div className="product-visual-placeholder">
-                  <p>Product Concept #2</p>
+                  <p>Generalist Agent</p>
                 </div>
-                <h4 className="product-title">Resource Allocation Framework</h4>
+                <h4 className="product-title">Generalist Autonomous Assistant</h4>
                 <p className="product-description">
-                  Open-source toolkit enabling developers to implement custom efficiency strategies for their AI models.
+                  Our research could enable generalist autonomous agents that can reason across multiple contexts simultaneously while maintaining accuracy through strategic optimial test-time computation.
                 </p>
               </div>
             </div>
@@ -476,33 +442,37 @@ export default function Home() {
           <div className="thank-you-message">
             <h2 className="thank-you-title">Thank You</h2>
             <p className="thank-you-text">
-              This research was made possible through the collaborative efforts of our dedicated team and the support of our partners.
+              This research was made possible through the Cognition X Mercor X Etched Hackathon.
+              We want to thank @Coreweave through @Northflank for providing acces to 8 x H100s and their team for trouble shooting with us.
+              Thank you Mercor for the office space and organizing the event.
+              Thanks to @Anthropic for the credits to use Claude Code and Sonnet, and to @Cognition for Devin access.
+              Special thanks to @Etched for extremely interesting conversations and guidance.
             </p>
           </div>
           
           <div className="about-us-content">
             <h3 className="about-us-title">About Our Team</h3>
             <p className="about-us-description">
-              We are a diverse group of researchers focused on making AI more efficient, accessible, and environmentally sustainable. Our team combines expertise in machine learning, systems optimization, and computational efficiency.
+              We like AI. We love trying to make it better.
             </p>
             
             <div className="team-members">
               <div className="team-member">
                 <div className="member-placeholder"></div>
-                <h4 className="member-name">Dr. Alex Johnson</h4>
-                <p className="member-role">Principal Investigator</p>
+                <h4 className="member-name">Vijay Kumaravel</h4>
+                <p className="member-role">Cofounder @JargonLearn & @Empathy, Researcher/Junior @USC</p>
               </div>
               
               <div className="team-member">
                 <div className="member-placeholder"></div>
-                <h4 className="member-name">Dr. Maria Rodriguez</h4>
-                <p className="member-role">Research Lead</p>
+                <h4 className="member-name">David Bai</h4>
+                <p className="member-role">Cofounder @JargonLearn & @Empathy, Researcher/Sophmore @USC</p>
               </div>
-              
+
               <div className="team-member">
                 <div className="member-placeholder"></div>
-                <h4 className="member-name">Dr. Sam Lee</h4>
-                <p className="member-role">Systems Architect</p>
+                <h4 className="member-name">Balaji Kumaravel</h4>
+                <p className="member-role">Founding Engineer @Adapt API, ex-Quantative Trading Engineer</p>
               </div>
             </div>
             
@@ -517,23 +487,10 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Visualizations Section */}
-      <Section 
-        id="visualizations" 
-        eyebrow="Insights"
-        title="Key Findings" 
-        description="Visualized results from our research highlighting important patterns and discoveries."
-      >
-        <div className="viz-container">
-          <BarChart />
-          <DonutChart />
-        </div>
-      </Section>
-      
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>&copy; {new Date().getFullYear()} Research Data Viewer</p>
+          <p>&copy; {new Date().getFullYear()} Optimal TestTime</p>
           <p>All research data available for academic and research purposes</p>
         </div>
       </footer>
