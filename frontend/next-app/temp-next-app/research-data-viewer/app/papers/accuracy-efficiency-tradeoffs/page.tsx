@@ -5,10 +5,29 @@ import Link from 'next/link';
 import CombinedRefusalAccuracyChart from "../../../components/CombinedRefusalAccuracyChart";
 
 // Figure component for displaying images with captions
-const Figure = ({ src, alt, title, caption }: { src: string; alt: string; title: string; caption: string }) => {
+const Figure = ({ 
+  src, 
+  alt, 
+  title, 
+  caption,
+  width,
+  height 
+}: { 
+  src: string; 
+  alt: string; 
+  title: string; 
+  caption: string;
+  width?: string | number;
+  height?: string | number;
+}) => {
   return (
     <figure className="paper-figure">
-      <img src={src} alt={alt} className="paper-image" />
+      <img 
+        src={src} 
+        alt={alt} 
+        className="paper-image" 
+        style={width || height ? { width: width || 'auto', height: height || 'auto' } : undefined} 
+      />
       <figcaption>
         <span className="figure-title">{title}</span>
         <span className="figure-caption">{caption}</span>
@@ -276,14 +295,32 @@ export default function InterruptionPaper() {
               and we report all results across the two sets we partitioned, as mentioned in Experiment details.
             </p>
             
-            <div className="chart-container">
-              <div className="chart-title">Figure 2: Experimental Results</div>
-              <CombinedRefusalAccuracyChart />
-              <div className="chart-caption">
-                Comparison of baseline models (GPT-4o and Claude 3.5) with our approach using different token injection points. 
-                We maintain accuracy on attempted questions while improving refusal rates.
-              </div>
-            </div>
+                <Figure 
+                  src="/images/papers/interruption-paper/average_bar.png"
+                  alt="Accuracy vs Refusal Rate Comparison"
+                  title=""
+                  caption=""
+                  width="90%" 
+                  height="auto"
+                />
+                
+                <Figure 
+                  src="/images/papers/interruption-paper/bar1.png"
+                  alt=""
+                  title=""
+                  caption=""
+                  width="90%" 
+                  height="auto"
+                />
+                
+                <Figure 
+                  src="/images/papers/interruption-paper/bar2.png"
+                  alt=""
+                  title=""
+                  caption=""
+                  width="90%" 
+                  height="auto"
+                />
             
             <p>
               We find that we maintain accuracy on attempted questions close to our baseline models, while improving in refusal rates. 
@@ -296,13 +333,7 @@ export default function InterruptionPaper() {
               We would like to introduce adaptive interrupt injection to solve this problem, but we decided not to pursue this given the 
               time constraints of the hackathon.
             </p>
-            
-            <Figure 
-              src="/images/papers/interruption-paper/diversity-graph.png"
-              alt="Graph showing reasoning diversity scores"
-              title="Figure 3: Reasoning Diversity Scores"
-              caption="Distribution of reasoning diversity scores across SimpleQA questions, with the threshold of 7 shown. Questions above this threshold are refused."
-            />
+      
           </PaperSection>
           
           <PaperSection id="conclusion" title="Conclusion">
@@ -331,10 +362,12 @@ export default function InterruptionPaper() {
             </p>
             
             <Figure 
-              src="/images/papers/interruption-paper/embedding-comparison.png"
+              src="/images/papers/interruption-paper/matrix500.png"
               alt="Embedding similarity matrix"
               title="Figure 4: Embedding Similarity Matrix"
               caption="Cosine similarity between embeddings of different reasoning chains, showing high similarity despite meaningful reasoning differences."
+              width="80%" 
+              height="auto"
             />
             
             <p>
