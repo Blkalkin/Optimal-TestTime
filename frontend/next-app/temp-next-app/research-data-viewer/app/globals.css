@@ -1413,3 +1413,250 @@ label {
 .mention-link:hover {
   text-decoration: underline;
 }
+
+/* Paper Page Styles */
+.paper-page {
+  padding-top: 64px; /* Account for navbar */
+}
+
+.paper-header {
+  background-color: var(--background-secondary);
+  padding: var(--space-16) 0;
+  border-bottom: 1px solid var(--background-tertiary);
+}
+
+.paper-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: var(--space-4);
+  color: var(--text-primary);
+}
+
+.paper-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-8);
+  max-width: 800px;
+}
+
+.paper-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-6);
+}
+
+.paper-authors {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.author {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.paper-date {
+  font-size: 0.9375rem;
+  color: var(--text-tertiary);
+}
+
+.paper-content {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: var(--space-10);
+  padding: var(--space-12) 0;
+}
+
+.paper-toc {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  background-color: var(--background-primary);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-light);
+}
+
+.paper-toc h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  color: var(--text-primary);
+}
+
+.paper-toc ul {
+  list-style: none;
+  padding: 0;
+}
+
+.paper-toc li {
+  margin-bottom: var(--space-2);
+}
+
+.paper-toc a {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  display: block;
+  padding: var(--space-2) 0;
+}
+
+.paper-toc a:hover {
+  color: var(--accent-primary);
+}
+
+.paper-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.paper-section {
+  scroll-margin-top: 80px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.paper-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.paper-section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: var(--space-6);
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.paper-section-content {
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.paper-section-content p {
+  margin-bottom: var(--space-4);
+}
+
+.paper-section-content ol,
+.paper-section-content ul {
+  margin-bottom: var(--space-6);
+  padding-left: var(--space-8);
+}
+
+.paper-section-content li {
+  margin-bottom: var(--space-3);
+}
+
+.figure-container {
+  margin: var(--space-8) 0;
+  background-color: var(--background-secondary);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  border: 1px solid var(--background-tertiary);
+}
+
+.figure-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  color: var(--text-primary);
+}
+
+.figure-placeholder {
+  background-color: var(--background-tertiary);
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  color: var(--text-tertiary);
+  font-size: 0.9375rem;
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-6) 0;
+  font-size: 0.9375rem;
+}
+
+.results-table th {
+  background-color: var(--background-secondary);
+  font-weight: 600;
+  text-align: center;
+  padding: var(--space-3) var(--space-2);
+  border: 1px solid var(--background-tertiary);
+}
+
+.results-table td {
+  text-align: center;
+  padding: var(--space-3) var(--space-2);
+  border: 1px solid var(--background-tertiary);
+}
+
+.results-table tr:nth-child(even) {
+  background-color: var(--background-secondary);
+}
+
+.paper-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16);
+  background-color: var(--background-secondary);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.paper-placeholder h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: var(--space-6);
+  color: var(--text-primary);
+}
+
+.paper-placeholder p {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  margin-bottom: var(--space-4);
+  max-width: 600px;
+}
+
+.inline-link {
+  color: var(--accent-primary);
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+/* Responsive styles for paper pages */
+@media (max-width: 768px) {
+  .paper-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .paper-toc {
+    position: relative;
+    top: 0;
+    margin-bottom: var(--space-8);
+  }
+  
+  .paper-title {
+    font-size: 2rem;
+  }
+  
+  .paper-section-title {
+    font-size: 1.5rem;
+  }
+}
