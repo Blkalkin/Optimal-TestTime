@@ -203,19 +203,31 @@ const CombinedRefusalAccuracyChart = () => {
     }
   };
 
-  const CustomTooltip = ({ active, payload, label }) => {
+  interface CustomTooltipProps {
+    active?: boolean;
+    payload?: Array<{
+      value: number;
+      name: string;
+      dataKey: string;
+      color: string;
+    }>;
+    label?: string;
+  }
+
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-4 border border-gray-200 rounded shadow-md">
-          <p className="font-bold">{label}</p>
-          <p className="text-sm">Refusal Rate: {payload[0].value.toFixed(2)}%</p>
-          <p className="text-sm">Accuracy When Attempted: {payload[1].value.toFixed(2)}%</p>
-          <p className="text-sm">Not Attempted: {payload[0].payload.notAttempted}</p>
-          <p className="text-sm">Correct: {payload[0].payload.correct}</p>
-          <p className="text-sm">Incorrect: {payload[0].payload.incorrect}</p>
+        <div className="custom-tooltip">
+          <p className="label">{`${label}`}</p>
+          {payload.map((entry, index) => (
+            <p key={`item-${index}`} style={{ color: entry.color }}>
+              {`${entry.name}: ${entry.value.toFixed(2)}%`}
+            </p>
+          ))}
         </div>
       );
     }
+
     return null;
   };
 

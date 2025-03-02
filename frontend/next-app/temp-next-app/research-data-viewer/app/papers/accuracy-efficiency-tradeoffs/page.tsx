@@ -103,12 +103,13 @@ export default function InterruptionPaper() {
 
   useEffect(() => {
     const handleScroll = () => {
+      const scrollPosition = window.scrollY;
       const sections = document.querySelectorAll('.paper-section');
-      const scrollPosition = window.scrollY + 100;
-
+      
       sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
+        const htmlSection = section as HTMLElement;
+        const sectionTop = htmlSection.offsetTop;
+        const sectionHeight = htmlSection.offsetHeight;
         const sectionId = section.getAttribute('id');
 
         if (
