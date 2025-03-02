@@ -1,0 +1,101 @@
+question_id,question_text,num_continuations,reasoning_diversity,final_diversity,reasoning_divergence,final_divergence
+1,Which city in Athens was Foivos Delivorias born in?,10,3.0,1.0,1.0,0.0
+2,Which university gave El Anatsui an honorary doctorate in 2016?,10,4.0,0.0,2.0,0.0
+3,How old was Kara Walker when she first received the MacArthur Fellowship?,10,8.0,5.0,0.9,0.0
+4,On what date did President Kagame receive an honorary degree in Ethiopia?,10,3.0,8.0,0.8,2.0
+5,What was the first and last name of the third director of the Metropolitan Museum of Art?,10,4.0,0.0,0.0,0.0
+6,What are the three cities where Arvind Kejriwal spent most of his childhood?,10,3.0,2.0,1.0,0.0
+7,"In February 2017, what board did Governor Larry Hogan nominate Wes Moore to serve on?",10,3.0,1.0,0.0,0.0
+8,"In which year did Fazal Ilahi Chaudhry, former Speaker of the National Assembly of Pakistan, join the Muslim League?",10,5.0,2.0,0.8,1.0
+9,What patch removed the Silver Armor from the crafting recipe for Jungle Armor in Terraria?,10,7.0,3.0,0.2,0.5
+10,"On what day, month, and year was Vladas Mironas, the 14th Prime Minister of Lithuania, born?",10,4.0,1.0,0.9,0.1
+11,In what year did conductor David Randolph graduate from City College of New York?,10,7.0,4.0,0.0,0.9
+12,"On what day, month, and year was former Bangladeshi Inspector General Benazir Ahmed born?",10,9.0,9.0,7.5,7.0
+13,During which Mob Psycho 100 Season 1 episode does Teru meet Mob?,10,8.0,7.0,5.4,1.8
+14,What was the name of the director of the Clayman Institute for Gender Research from 1997 to 2001?,10,9.0,9.0,3.6,7.3
+15,How many houses did the village of Bure Nangal in Batala have according to the 2011 Census of India?,10,9.0,7.0,2.0,6.9
+16,"On what day, month, and year did the 2nd ASEM Transport Ministers' Meeting begin?",10,9.0,10.0,1.5,2.6
+17,Which companion can Josephine develop feelings for (other than the Inquisitor themselves) in Dragon Age: Inquisition (2014)?,10,2.0,0.0,1.0,0.0
+18,In which year was G. S. Mahajan appointed as the Vice Chancellor of Delhi University?,10,6.0,9.0,0.0,7.0
+19,What is the name of the contestant who was the 4th runner-up at Miss Supranational 2013?,10,1.0,10.0,0.0,10.0
+20,"In the crest of the Agnew clan, what animal is depicted ""issuant and regardant Proper""?",10,8.0,5.0,2.4,2.0
+21,"Toronto mayors Sir Adam Wilson (Mayor from 1859-1861), John George Bowes (Mayor from 1861-1864), and Francis Henry Medcalf (Mayor from 1864-1867) were elected to office by which body?",10,7.0,1.0,1.0,0.0
+22,In which year did Maharaj Kishan Bhan (an Indian pediatrician and clinical scientist) receive the Padma Bhushan for civil services?,10,3.0,0.0,0.0,0.0
+23,"In which year was Motaz Azaiza named Man of the Year by GQ Middle East, with editor Ahmad Ali Swaid?",10,3.0,0.0,1.1,0.0
+24,What week was Katie Sapienza eliminated in Season 1 of The Bachelor?,10,9.0,7.0,1.2,3.0
+25,Who received the Farrer Medal in 2014?,10,7.0,9.0,2.0,3.2
+26,"In what year was the Ajah campus of Pan-Atlantic University (Lagos, Nigeria) completed?",10,9.0,10.0,5.8,7.8
+27,"On what day, month, and year did Randy Johnston (model) die?",10,7.0,9.0,1.2,2.0
+28,In which episode and season of South Park is Mr. Mackey's first appearance? Please give me the number and title.,10,4.0,7.0,2.0,2.0
+29,"What year was the municipality of Boyacá, Boyacá, Colombia, founded?",10,9.0,10.0,2.5,4.5
+30,Which architects designed the Abasto?,10,6.0,4.0,0.5,0.7
+31,"What were the names of the two puppets that appeared in Atlanta, Georgia-based Round Table Pizza's TV commercials from 2003 to 2005?",10,2.0,10.0,2.0,9.0
+32,In which episode and season of Rick and Morty is Jerry floating around for 10 hours? Give me the number and title.,10,8.0,9.0,0.0,10.0
+33,What was the name of the other collection released by Undercover in 2016 alongside 'The Greatest'?,10,8.0,7.0,7.6,3.2
+34,"On what day, month, and year did Mereta Mita die, and what was the reason behind her death?",10,4.0,2.0,1.1,0.4
+35,"What were the month, date, and year when the South Korean Supreme Court legalized conscientious objection as a basis for rejecting compulsory military service?",10,7.0,1.0,1.0,0.0
+36,"On what day, month, and year was Harold Shipman married to Primrose May Oxtoby?",10,8.0,10.0,4.2,3.0
+37,"What month, day, and year did Briana Scurry marry Chryssa Zizos?",10,6.0,7.0,0.2,2.2
+38,Which year was the drug Metformin introduced as a medication in France?,10,4.0,2.0,1.1,0.3
+39,What was the original surname of conductor David Randolph?,10,8.0,9.0,1.0,6.0
+40,In what month and year did Billy Miller earn a Daytime Emmy nomination for his portrayal of Jason Morgan in the category of Outstanding Lead Actor?,10,7.0,4.0,1.4,2.0
+41,Who won the American Mathematical Society David P. Robbins Prize in 2010?,10,7.0,9.0,3.1,3.7
+42,"What year was the municipality of Belmira, Antioquia, Colombia, founded?",10,8.0,7.0,5.1,3.3
+43,In what year did computer scientist Dana Angluin join the faculty at Yale University?,10,7.0,6.0,0.4,1.1
+44,"What were the month, day, and year that Thomas Randolph wrote to the Earl of Leicester, stating that he was unable and unwilling to commit his opinions on Mary's actions on paper for fear of appearing ""malicieus foolyshe and unadvised""?",10,6.0,9.0,0.0,0.0
+45,What year did Jasper Johns commission Richard Serra to make a splash piece?,10,7.0,2.0,6.4,0.2
+46,"What is the ChemSpider ID of Axitinib, a small molecule tyrosine kinase inhibitor developed by Pfizer?",10,8.0,10.0,4.0,6.3
+47,"What is Harees, a famous dish of Armenia and the Arabian Peninsula, called in Zanzibar?",10,9.0,8.0,4.0,4.3
+48,"What day, month, and year did Sara Duterte resign from Lakas-CMD?",10,6.0,10.0,0.0,10.0
+49,"On what day, month, and year did NHK Hall, located in Shibuya Ward, Tokyo, start operation?",10,7.0,10.0,2.5,9.0
+50,"In the British drama series Happy Valley, in which season and episode is Kirsten McAskill murdered by Royce?",10,8.0,9.0,2.2,2.1
+51,How many daughters did the mathematician Hsien-Chung Wang have?,10,10.0,9.0,7.2,8.7
+52,"What were the day, month, and year the first wooden roller coaster manufactured by Rocky Mountain Construction officially opened?",10,8.0,7.0,6.9,4.8
+53,Who was the first person to be an American diplomatic minister to Romania and Serbia?,10,7.0,2.0,0.8,1.0
+54,What prize was El Anatsui awarded in 1998 in Osaka?,10,6.0,9.0,0.0,1.4
+55,"What month, day, and year did Southeastern Louisiana University retire Robin Roberts' jersey?",10,7.0,9.0,1.3,1.0
+56,"Tell me the day, month, and year President Bujar Nishani became Minister of Interior.",10,6.0,8.0,1.5,4.5
+57,"What phrase did Bird Person say to Morty in his native language about making the right choice or the one that lets you sleep at night in Season 1, Episode 11?",10,9.0,8.0,2.8,3.0
+58,"At which college in Pune did the 7th Chief Justice of India, P. B. Gajendragadkar, study for his M.A.?",10,5.0,1.0,0.2,0.0
+59,Name the school where the Kusumbai Motichand Planetarium was established in Pune in 1954.,10,5.0,4.0,2.3,2.5
+60,Who set the world record for the longest time spent in a snow globe in 2007?,10,9.0,10.0,3.5,8.1
+61,"What were the day, month, and year when Britannica released a Google Chrome extension, ""Britannica Insights,"" which shows snippets of information from Britannica Online whenever the user performs a Google search, in a box to the right of Google's results?",10,9.0,10.0,2.6,4.2
+62,What is the name of the group exhibition that Helmut Lang participated in during 2017 in Dublin?,10,8.0,9.0,0.0,3.3
+63,"On what day, month, and year was Michaela Hübschle, a Namibian politician and former Deputy Minister for Prisons and Correctional Services, born?",10,9.0,10.0,2.5,8.6
+64,"In what year did Claribel and Etta Cone acquire Henri Matisse's ""Blue Nude"" at the sale of John Quinn’s collection in Paris?",10,7.0,1.0,1.1,0.5
+65,Who was the architect of Leamington who designed the church of St. John the Baptist that was built between 1877 and 1878?,10,8.0,9.0,4.7,8.0
+66,"From what year to what year did the Ethiopian politician Billene Seyoum Woldeyes study International Relations at the University of British Columbia, Vancouver?",10,8.0,10.0,3.0,4.6
+67,"How many drivers participated in the overnight study in the research paper titled ""Detecting Driver Mental Fatigue Based on EEG Alpha Power Changes During Simulated Driving"" by Faramarz Gharagozlou et al.?",10,8.0,7.0,2.3,1.4
+68,"How many DLCs were released for Elder Scrolls V: Skyrim as of December 5, 2012?",10,2.0,0.0,0.1,0.0
+69,What was the 2018 Word of the Year according to the American Dialect Society?,10,6.0,0.0,1.9,0.0
+70,What is the name of Jupiter’s third-largest moon?,10,2.0,0.0,2.0,0.0
+71,How many losses did Adolf Anderssen have in his 1864 chess match against Berthold Suhle?,10,8.0,10.0,6.4,3.5
+72,"What day, month, and year did Australian politician John Joseph Hall die?",10,7.0,10.0,0.0,10.0
+73,"In the oracle card deck created by Kyle Gray titled ""The 22 Archangels Oracle,"" how many cards are in the deck?",10,8.0,10.0,0.8,0.3
+74,Who was the first cardiologist in Kashmir?,10,7.0,9.0,7.2,10.0
+75,What was the name of Helmut Lang's solo exhibition in Vienna in 2017?,10,6.0,8.0,1.8,2.4
+76,"Give me the DOI of the paper ""New avenues and challenges in semantic map research.""",10,8.0,1.0,2.6,0.5
+77,How many egg-shaped layers of float glass is William Cochran's sculpture *Pillar of Fire* made of?,10,8.0,10.0,0.0,10.0
+78,Kiyoshi Oka entered the Imperial University of Kyoto in 1922 to study what subject?,10,3.0,0.0,0.9,0.0
+79,"On what day, month, and year did The Palmolive Hour radio program stop being broadcast on NBC?",10,6.0,10.0,3.2,8.1
+80,Which award did Reza Aslan receive in 2014?,10,7.0,8.0,1.3,1.2
+81,For how many days was Frida Kahlo's first solo exhibit held?,10,8.0,6.0,1.3,1.4
+82,In which two fields of study did computer scientist Nancy Amato receive two bachelor's degrees from Stanford University in 1986?,10,3.0,2.0,2.6,0.8
+83,"In which year did Atul Gawande earn an M.A. in Philosophy, Politics and Economics (PPE) from Balliol College, Oxford?",10,6.0,0.0,2.1,0.0
+84,"On what day, month, and year was Canal+ Box Office launched?",10,8.0,10.0,3.0,10.0
+85,With which political party was Karl Wilhelm Rudolf von Bennigsen associated?,10,7.0,0.0,0.2,0.0
+86,"The ""Un'alma innamorata"" was written by what composer in 1707?",10,8.0,9.0,3.5,2.0
+87,Who was the first female chemist to receive the Francis P. Garvan-John M. Olin Medal?,10,5.0,1.0,0.0,0.0
+88,What is the name of the individual in whose memory the Taj Mahal was built by Mughal Emperor Shah Jahan?,10,7.0,1.0,1.0,0.0
+89,What year did Australian politician William Lawrence Morrison graduate from the University of Sydney?,10,9.0,6.0,1.8,2.0
+90,In what city did Marina Abramović perform Rhythm 4 (1974)?,10,7.0,1.0,1.1,0.0
+91,What is the boiling point of the element dysprosium in Fahrenheit?,10,3.0,2.0,1.0,0.8
+92,At what zoo did August Scherl demonstrate his gyro-monorail to the public?,10,6.0,2.0,2.0,0.0
+93,"The Jensen Interceptor (1950), produced from 1950 to 1957, had a wheelbase measurement of what in millimeters?",10,8.0,9.0,4.9,8.0
+94,Who won the Emil Artin Junior Prize in Mathematics in 2009?,10,8.0,10.0,6.0,7.2
+95,What drag family was Monét X Change originally a member of before starting her own?,10,3.0,9.0,0.0,5.0
+96,"What day, month, and year did Salvador Dalí's mother pass away?",10,3.0,0.0,8.0,0.0
+97,What were the names of the two presenters of the 16th edition of the Miss World pageant?,10,7.0,5.0,2.7,1.5
+98,Who laid the foundation stone of Jamia Millia Islamia?,10,7.0,2.0,6.8,0.8
+99,What year did the Victoria and Albert Museum buy the small vacant triangle of land opposite its main entrance to ensure that the view from Thurloe Square could never be obscured by new buildings?,10,7.0,9.0,3.2,2.5
+100,In what month and year did Jacques Frédéric Français publish a work in which he gave a geometric representation of complex numbers with interesting applications?,10,7.0,2.0,2.0,0.8
