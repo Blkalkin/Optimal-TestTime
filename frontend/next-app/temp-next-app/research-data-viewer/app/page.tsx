@@ -110,15 +110,15 @@ const Navigation = () => {
   return (
     <nav className="navbar">
       <div className="container navbar-container">
-        <div className="logo">Optimal-TestTime</div> // need logo
+        <div className="logo">Optimal TestTime</div>
         <div className="nav-links">
           <button className="nav-link" onClick={() => scrollToSection('title-section')}>Home</button>
           <button className="nav-link" onClick={() => scrollToSection('hypothesis-one')}>Efficiency</button>
           <button className="nav-link" onClick={() => scrollToSection('hypothesis-two')}>Accuracy</button>
           <button className="nav-link" onClick={() => scrollToSection('applications')}>Applications</button>
           <button className="nav-link" onClick={() => scrollToSection('research-links')}>Research</button>
-          <button className="nav-link" onClick={() => navigateTo('/papers/optimal-testtime')}>Optimal Test-Time</button>
-          <button className="nav-link" onClick={() => navigateTo('/papers/accuracy-efficiency-tradeoffs')}>Accuracy-Efficiency</button>
+          <button className="nav-link" onClick={() => navigateTo('/papers/optimal-testtime')}>Parallel Reasoning Pruning</button>
+          <button className="nav-link" onClick={() => navigateTo('/papers/accuracy-efficiency-tradeoffs')}>Hallucination Detection</button>
           <button className="nav-link" onClick={() => scrollToSection('about-us')}>About</button>
         </div>
       </div>
@@ -314,7 +314,12 @@ export default function Home() {
                 <p className="hypothesis-description">By having reasoning LLMs extend their thinking with self-verification statements after reaching an answer, we can implement a majority-vote mechanism to detect hallucinations, enabling confidence-based compute allocation for improved accuracy on various benchmarks.</p>
               </div>
               <div className="visualization-placeholder">
-                <p className="text-gray-500">Visualization 2 placeholder</p>
+                <img 
+                  src="/images/simpleqahallucationbenchmark.png"
+                  alt="Graph showing accuracy gains from inference-time hallucination detection via self-verification"
+                  className="visualization-image"
+                  style={{maxWidth: "60%", height: "auto"}}
+                />
               </div>
             </div>
           </div>
@@ -341,7 +346,12 @@ export default function Home() {
               </div>
               <div className="hypothesis-visual">
                 <div className="detail-visual-placeholder">
-                  <p>Detailed visualization of adaptive computation allocation</p>
+                  <img 
+                    src="/images/pruningchain.png"
+                    alt="Detailed visualization of adaptive computation allocation for parallel reasoning chain pruning"
+                    className="visualization-image"
+                    style={{maxWidth: "100%", height: "auto"}}
+                  />
                 </div>
               </div>
             </div>
@@ -355,12 +365,7 @@ export default function Home() {
           <div className="hypothesis-detail">
             <div className="hypothesis-eyebrow">Accuracy</div>
             <h2 className="hypothesis-detail-title">Inference-Time Hallucination Detection via Self-Verification</h2>
-            <div className="hypothesis-content reverse">
-              <div className="hypothesis-visual">
-                <div className="detail-visual-placeholder">
-                  <p>Visualization of accuracy vs. efficiency balance</p>
-                </div>
-              </div>
+            <div className="hypothesis-content">
               <div className="hypothesis-text">
                 <p className="hypothesis-lead">
                   We discovered that by <strong>allowing reasoning models to self correct their answers to hallucination benchmarks</strong> and analyzing the diversity of their reasoning as a hueristic for model confidence, we can detect model hallucations at a higher rate and <strong> offer refusals instead of a confidently incorrect answer </strong>
@@ -442,31 +447,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
-          <div className="product-showcase">
-            <h3 className="showcase-title">Research-Driven Products</h3>
-            <div className="showcase-items">
-              <div className="product-item">
-                <div className="product-visual-placeholder">
-                  <p>World Models</p>
-                </div>
-                <h4 className="product-title">World Model Optimization</h4>
-                <p className="product-description">
-                  Our research could enable more efficient world models that can simulate complex environments with selective computation, focusing resources on the most informative aspects of the simulation while maintaining fidelity. S/O @etched.
-                </p>
-              </div>
-              
-              <div className="product-item">
-                <div className="product-visual-placeholder">
-                  <p>Generalist Agent</p>
-                </div>
-                <h4 className="product-title">Generalist Autonomous Assistant</h4>
-                <p className="product-description">
-                  Our research could enable generalist autonomous agents that can reason across multiple contexts simultaneously while maintaining accuracy through strategic optimial test-time computation.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
       
@@ -481,8 +461,8 @@ export default function Home() {
             <a href="/papers/optimal-testtime" className="paper-link-card">
               <div className="paper-icon">📄</div>
               <div className="paper-content">
-                <h3 className="paper-title">Optimal Test-Time Computation</h3>
-                <p className="paper-description">A comprehensive analysis of adaptive computation allocation strategies for inference optimization.</p>
+                <h3 className="paper-title">Parallel Reasoning Chain Pruning</h3>
+                <p className="paper-description">Encouraging efficiency in inference-time compute by pruning redundant reasoning chains early on.</p>
                 <span className="paper-cta">Read the full paper →</span>
               </div>
             </a>
@@ -490,8 +470,8 @@ export default function Home() {
             <a href="/papers/accuracy-efficiency-tradeoffs" className="paper-link-card">
               <div className="paper-icon">📊</div>
               <div className="paper-content">
-                <h3 className="paper-title">Accuracy-Efficiency Trade-offs</h3>
-                <p className="paper-description">An in-depth exploration of the balance between model performance and computational efficiency.</p>
+                <h3 className="paper-title">Hallucination Detection</h3>
+                <p className="paper-description">Detecting and rejecting hallucinations at inference time with diversity-based analyses of parallel reasoning chains.</p>
                 <span className="paper-cta">Read the full paper →</span>
               </div>
             </a>
@@ -522,9 +502,13 @@ export default function Home() {
             
             <div className="team-members">
               <div className="team-member">
-                <div className="member-placeholder"></div>
+                <img 
+                  src="/images/vijayprofileshot.jpeg" 
+                  alt="Vijay Kumaravel" 
+                  className="member-image"
+                />
                 <h4 className="member-name">
-                  <a href="https://www.linkedin.com/in/vijay-kumaravel" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.linkedin.com/in/vijay-kumaravelrajan/" target="_blank" rel="noopener noreferrer">
                     Vijay Kumaravel
                   </a>
                   {" · "}
@@ -536,9 +520,13 @@ export default function Home() {
               </div>
               
               <div className="team-member">
-                <div className="member-placeholder"></div>
+                <img 
+                  src="/images/davidprofileshot.jpeg" 
+                  alt="David Bai" 
+                  className="member-image"
+                />
                 <h4 className="member-name">
-                  <a href="https://www.linkedin.com/in/david-bai" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.linkedin.com/in/david-bai/" target="_blank" rel="noopener noreferrer">
                     David Bai
                   </a>
                   {" · "}
@@ -550,9 +538,13 @@ export default function Home() {
               </div>
 
               <div className="team-member">
-                <div className="member-placeholder"></div>
+                <img 
+                  src="/images/balajiprofileshot.jpeg" 
+                  alt="Balaji Kumaravel" 
+                  className="member-image"
+                />
                 <h4 className="member-name">
-                  <a href="https://www.linkedin.com/in/balaji-kumaravel-5044a0166" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.linkedin.com/in/balaji-kumaravel-5044a0166/" target="_blank" rel="noopener noreferrer">
                     Balaji Kumaravel
                   </a>
                   {" · "}
@@ -568,7 +560,7 @@ export default function Home() {
               <h4 className="contact-title">Get in Touch</h4>
               <p className="contact-text">
                 Interested in learning more about our research or exploring collaboration opportunities? 
-                Reach out to us at <a href="mailto:research@example.com" className="contact-link">research@example.com</a>
+                Reach out to us at our LinkedIn profiles!
               </p>
             </div>
           </div>
