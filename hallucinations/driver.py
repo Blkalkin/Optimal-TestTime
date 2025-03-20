@@ -346,230 +346,7 @@ async def generate_initial_answers(num_examples=None, output_jsonl="simpleqa_res
     print(f"All initial answers have been generated and saved to {output_jsonl}")
     return output_jsonl
 
-async def get_consensus(continuation_responses_jsonl="simpleqa_continuations_responses.jsonl"):
-    """
-    Get the consensus answer for each question from the continuation responses.
-    Uses GPT-4o to determine if there's a clear consensus among answers.
-    """
-    if not os.path.exists(continuation_responses_jsonl):
-        print(f"Continuation responses file {continuation_responses_jsonl} does not exist.")
-        return
-    client = openai.AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-
-    # Dictionary to store answers and questions for each original question
-    question_data = {}
-    
-    # Parse the continuation responses
-    with open(continuation_responses_jsonl, "r") as f:
-        for line in f:
-            entry = json.loads(line.strip())
-            original_question_id = entry.get("original_question_id", "")
-            question_text = entry.get("question", "")
-            
-            # Get the content from the response
-            if "response" in entry and "choices" in entry["response"] and len(entry["response"]["choices"]) > 0:
-                content = entry["response"]["choices"][0].get("text", "")
-                
-                # Remove anything before the </think> tag if it exists
-                if "</think>" in content:
-                    content = content.split("</think>", 1)[1].strip()
-                
-                # Initialize the question data structure if needed
-                if original_question_id not in question_data:
-                    question_data[original_question_id] = {
-                        "question_text": question_text,
-                        "answers": []
-                    }
-                
-                # Add to the answers list for this question
-                question_data[original_question_id]["answers"].append(content)
-    
-    # Get consensus for each question using GPT-4o
-    consensus_results = {}
-    
-    # Process questions in batches
-    batch_size = 5  # Smaller batch size for more complex operations
-    question_ids = list(question_data.keys())
-    
-    for i in range(0, len(question_ids), batch_size):
-        batch_ids = question_ids[i:i+batch_size]
-        print(f"Processing batch {i//batch_size + 1}/{(len(question_ids) + batch_size - 1)//batch_size}")
-        
-        # First, create extraction tasks for each answer in each question
-        extract_tasks = []
-        for question_id in batch_ids:
-            data = question_data[question_id]
-            question_text = data["question_text"]
-            answers = data["answers"]
-            
-            print(f"Queueing extraction for question {question_id}")
-            for answer in answers:
-                extract_prompt = f"""
-                Given this question: "{question_text}"
-                
-                And this answer: "{answer}"
-                
-                Extract ONLY the core answer phrase that directly addresses the question.
-                Return just the essential answer without any explanation or reasoning.
-                """
-                
-                task = asyncio.create_task(client.chat.completions.create(
-                    model="gpt-4o",
-                    messages=[{"role": "user", "content": extract_prompt}]
-                ))
-                extract_tasks.append((task, question_id, question_text))
-        
-        # Process extraction results and organize by question ID
-        core_answers_by_id = {}
-        for task, question_id, question_text in tqdm(extract_tasks, desc="Extracting core answers"):
-            try:
-                response = await task
-                core_answer = response.choices[0].message.content.strip()
-                
-                if question_id not in core_answers_by_id:
-                    core_answers_by_id[question_id] = {
-                        "question_text": question_text,
-                        "core_answers": []
-                    }
-                core_answers_by_id[question_id]["core_answers"].append(core_answer)
-                
-            except Exception as e:
-                print(f"Error extracting core answer for question {question_id}: {e}")
-        
-        # Now create consensus tasks for each question
-        consensus_tasks = []
-        for question_id, data in core_answers_by_id.items():
-            question_text = data["question_text"]
-            core_answers = data["core_answers"]
-            
-            consensus_prompt = f"""
-            I have multiple answers to the question: "{question_text}"
-            
-            Here are the answers:
-            {core_answers}
-            
-            First, identify distinct answer options and count their frequencies.
-            
-            Then, determine if there's a clear consensus among these answers. 
-            A clear consensus exists when:
-            1. One answer has significantly more occurrences than others (over 50% of all answers)
-            2. The multiple similar answers clearly converge on the same information
-            
-            If there's a clear consensus, return:
-            {{"consensus": true, "answer": "[the consensus answer]"}}
-            
-            If there's no clear consensus or significant disagreement between answers, return:
-            {{"consensus": false, "answer": "I don't know."}}
-            
-            Please output ONLY the JSON object with your determination.
-            """
-            
-            task = asyncio.create_task(client.chat.completions.create(
-                model="gpt-4o",
-                messages=[{"role": "user", "content": consensus_prompt}],
-                response_format={"type": "json_object"}
-            ))
-            consensus_tasks.append((task, question_id, question_text, core_answers))
-        
-        # Process consensus results
-        for task, question_id, question_text, core_answers in tqdm(consensus_tasks, desc="Determining consensus"):
-            try:
-                response = await task
-                consensus_json = response.choices[0].message.content
-                
-                consensus_results[question_id] = {
-                    "question": question_text,
-                    "consensus": consensus_json
-                }
-                
-                print(f"Answers for question {question_id}: {core_answers}")
-                print(f"Consensus: {consensus_results[question_id]['consensus']}")
-                
-                with open("consensus_results.jsonl", "a") as f:
-                    f.write(json.dumps(consensus_results[question_id]) + "\n")
-                    
-            except Exception as e:
-                print(f"Error determining consensus for question {question_id}: {e}")
-    
-    return consensus_results
-
-async def update_responses_with_consensus(responses_jsonl="simpleqa_responses.jsonl", output_jsonl="simpleqa_consensus_responses.jsonl", consensus_results=None):
-    """
-    Update the responses with the consensus answer.
-    If GPT-4o determines there's no clear consensus, use "I don't know."
-    """
-    if not os.path.exists(responses_jsonl):
-        print(f"Responses file {responses_jsonl} does not exist.")
-        return
-    
-    # Get consensus results if not provided
-    if consensus_results is None:
-        print("Generating consensus results...")
-        consensus_results = await get_consensus()
-    
-    # Read all entries from the responses file
-    entries = []
-    with open(responses_jsonl, "r") as f:
-        for line in f:
-            entries.append(json.loads(line.strip()))
-    
-    # Prepare output entries
-    output_entries = []
-    
-    for entry in entries:
-        question_id = entry.get("question_id", "unknown")
-        question = entry.get("question", "")
-        gold_answer = entry.get("gold_answer", "")
-        
-        # Get original response
-        original_answer = ""
-        if "response" in entry and "choices" in entry["response"] and len(entry["response"]["choices"]) > 0:
-            original_answer = entry["response"]["choices"][0]["message"]["content"]
-            # Remove thinking part if present
-            if "</think>" in original_answer:
-                original_answer = original_answer.split("</think>", 1)[1].strip()
-        
-        # Check if we have consensus results for this question
-        consensus_answer = original_answer  # Default to original answer
-        
-        if question_id in consensus_results:
-            # Parse the consensus JSON
-            try:
-                consensus_data = consensus_results[question_id]["consensus"]
-                
-                # Parse as JSON
-                consensus_obj = json.loads(consensus_data)
-                
-                # Use the determined answer directly from GPT-4o
-                if consensus_obj.get("consensus", False):
-                    consensus_answer = consensus_obj.get("answer", original_answer)
-                else:
-                    consensus_answer = "I don't know."
-                    
-            except Exception as e:
-                print(f"Error parsing consensus for question {question_id}: {e}")
-        
-        # Create output entry
-        output_entry = {
-            "question_id": question_id,
-            "question": question,
-            "gold_answer": gold_answer,
-            "predicted_answer": consensus_answer
-        }
-        
-        output_entries.append(output_entry)
-        
-        print(f"Question {question_id}: {'Using consensus' if consensus_answer != original_answer else 'Using original answer'}")
-    
-    # Write output entries to file
-    with open(output_jsonl, "w") as f:
-        for entry in output_entries:
-            f.write(json.dumps(entry) + "\n")
-    
-    print(f"Updated {len(output_entries)} entries with consensus answers and saved to {output_jsonl}")
-    return output_jsonl
-
-async def evaluate_simpleqa_answers(eval_jsonl="simpleqa_eval.jsonl"):
+async def evaluate_simpleqa_answers(eval_jsonl):
     """
     Evaluate SimpleQA answers using GPT-4o as the grader.
     
@@ -580,6 +357,9 @@ async def evaluate_simpleqa_answers(eval_jsonl="simpleqa_eval.jsonl"):
     if not os.path.exists(eval_jsonl):
         print(f"Evaluation file {eval_jsonl} does not exist.")
         return
+    
+    # Create output file name
+    output_file = f"{eval_jsonl.split('.')[0]}.txt"
     
     # Initialize grader model
     client = openai.AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
@@ -597,68 +377,87 @@ async def evaluate_simpleqa_answers(eval_jsonl="simpleqa_eval.jsonl"):
         "NOT_ATTEMPTED": 0,
     }
     
-    # Process and grade entries in batches
-    batch_size = 10  # Adjust based on rate limits
-    print(f"Evaluating {len(eval_entries)} responses...")
-    
-    for i in range(0, len(eval_entries), batch_size):
-        batch = eval_entries[i:i+batch_size]
-        print(f"Processing batch {i//batch_size + 1}/{(len(eval_entries) + batch_size - 1)//batch_size}")
+    # Open output file for writing evaluation results
+    with open(output_file, "w") as outf:
+        outf.write("========== QUESTION EVALUATION RESULTS ==========\n\n")
         
-        # Create grading tasks
-        grading_tasks = []
-        for entry in batch:
-            question_id = entry.get("question_id", "unknown")
-            question_text = entry.get("question", "")
-            gold_answer = entry.get("gold_answer", "")
-            predicted_answer = entry.get("predicted_answer", "")
-            
-            # Skip if no gold answer
-            if not gold_answer:
-                print(f"Skipping question {question_id}: No gold answer")
-                continue
-            
-            grader_prompt = GRADER_TEMPLATE.format(
-                question=question_text,
-                target=gold_answer,
-                predicted_answer=predicted_answer,
-            )
-            
-            task = asyncio.create_task(client.chat.completions.create(
-                model="gpt-4o",
-                messages=[{"role": "user", "content": grader_prompt}]
-            ))
-            grading_tasks.append((task, question_id, question_text))
+        # Process and grade entries in batches
+        batch_size = 10  # Adjust based on rate limits
+        print(f"Evaluating {len(eval_entries)} responses...")
         
-        # Process grading results
-        for task, question_id, question_text in tqdm(grading_tasks, desc="Grading answers"):
-            try:
-                response = await task
-                response_text = response.choices[0].message.content
-                match = re.search(r"(A|B|C)", response_text)
-                grade_letter = match.group(0) if match else "C"  # Default to "NOT_ATTEMPTED" if no match
-                grade_string = CHOICE_LETTER_TO_STRING.get(grade_letter, "NOT_ATTEMPTED")
+        for i in range(0, len(eval_entries), batch_size):
+            batch = eval_entries[i:i+batch_size]
+            print(f"Processing batch {i//batch_size + 1}/{(len(eval_entries) + batch_size - 1)//batch_size}")
+            
+            # Create grading tasks
+            grading_tasks = []
+            for entry in batch:
+                question_id = entry.get("question_id", "unknown")
+                question_text = entry.get("question", "")
+                gold_answer = entry.get("gold_answer", "")
+                predicted_answer = entry.get("predicted_answer", "")
                 
-                # Update results
-                results[grade_string] += 1
+                # Skip if no gold answer
+                if not gold_answer:
+                    print(f"Skipping question {question_id}: No gold answer")
+                    continue
                 
-                print(f"Question {question_id}: Graded as {grade_string}")
+                grader_prompt = GRADER_TEMPLATE.format(
+                    question=question_text,
+                    target=gold_answer,
+                    predicted_answer=predicted_answer,
+                )
                 
-            except Exception as e:
-                print(f"Error grading question {question_id}: {e}")
-                results["NOT_ATTEMPTED"] += 1
+                task = asyncio.create_task(client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=[{"role": "user", "content": grader_prompt}]
+                ))
+                grading_tasks.append((task, question_id, question_text, entry))
+            
+            # Process grading results
+            for task, question_id, question_text, entry in tqdm(grading_tasks, desc="Grading answers"):
+                try:
+                    response = await task
+                    response_text = response.choices[0].message.content
+                    match = re.search(r"(A|B|C)", response_text)
+                    grade_letter = match.group(0) if match else "C"  # Default to "NOT_ATTEMPTED" if no match
+                    grade_string = CHOICE_LETTER_TO_STRING.get(grade_letter, "NOT_ATTEMPTED")
+                    
+                    # Update results
+                    results[grade_string] += 1
+                    
+                    # Write result to output file
+                    outf.write(f"Question ID: {question_id} | Grade: {grade_string}\n")
+                    print(f"Question {question_id}: Graded as {grade_string}")
+                    
+                except Exception as e:
+                    print(f"Error grading question {question_id}: {e}")
+                    results["NOT_ATTEMPTED"] += 1
+                    outf.write(f"Question ID: {question_id}\n")
+                    outf.write(f"Error: {str(e)}\n")
+                    outf.write(f"Grade: NOT_ATTEMPTED\n\n")
+        
+        # Calculate metrics
+        total = sum(results.values())
+        is_correct = results["CORRECT"] / total if total > 0 else 0
+        is_incorrect = results["INCORRECT"] / total if total > 0 else 0
+        is_not_attempted = results["NOT_ATTEMPTED"] / total if total > 0 else 0
+        is_given_attempted = is_correct + is_incorrect
+        
+        accuracy_given_attempted = is_correct / is_given_attempted if is_given_attempted > 0 else 0
+        f1 = (2 * accuracy_given_attempted * is_correct) / (accuracy_given_attempted + is_correct) if (accuracy_given_attempted + is_correct) > 0 else 0
+        
+        # Write summary statistics to output file
+        outf.write("\n========== SUMMARY STATISTICS ==========\n")
+        outf.write(f"Examples evaluated: {total}\n")
+        outf.write(f"Correct: {results['CORRECT']} ({is_correct:.2%})\n")
+        outf.write(f"Incorrect: {results['INCORRECT']} ({is_incorrect:.2%})\n")
+        outf.write(f"Not Attempted: {results['NOT_ATTEMPTED']} ({is_not_attempted:.2%})\n")
+        outf.write(f"Accuracy Given Attempted: {accuracy_given_attempted:.4f}\n")
+        outf.write(f"F1 Score: {f1:.4f}\n")
+        outf.write("========================================\n")
     
-    # Calculate metrics
-    total = sum(results.values())
-    is_correct = results["CORRECT"] / total if total > 0 else 0
-    is_incorrect = results["INCORRECT"] / total if total > 0 else 0
-    is_not_attempted = results["NOT_ATTEMPTED"] / total if total > 0 else 0
-    is_given_attempted = is_correct + is_incorrect
-    
-    accuracy_given_attempted = is_correct / is_given_attempted if is_given_attempted > 0 else 0
-    f1 = (2 * accuracy_given_attempted * is_correct) / (accuracy_given_attempted + is_correct) if (accuracy_given_attempted + is_correct) > 0 else 0
-    
-    # Print final results
+    # Print final results to console
     print("\n========== RESULTS ==========")
     print(f"Examples evaluated: {total}")
     print(f"Correct: {results['CORRECT']} ({is_correct:.2%})")
@@ -667,6 +466,7 @@ async def evaluate_simpleqa_answers(eval_jsonl="simpleqa_eval.jsonl"):
     print(f"Accuracy Given Attempted: {accuracy_given_attempted:.4f}")
     print(f"F1 Score: {f1:.4f}")
     print("=============================")
+    print(f"Detailed evaluation results written to: {output_file}")
     
     return {
         "total": total,
@@ -677,119 +477,77 @@ async def evaluate_simpleqa_answers(eval_jsonl="simpleqa_eval.jsonl"):
         "f1": f1
     }
 
-async def consensus_with_diversity_threshold(responses_jsonl="simpleqa_responses.jsonl", 
-                                           output_jsonl="simpleqa_diversity_threshold_responses_250.jsonl",
-                                           diversity_csv="gemini_test_results_250.csv",
-                                           reasoning_diversity_threshold=7.0):
+def consensus(input_csv, output_csv, consensus_threshold, output_jsonl=None):
     """
-    Update responses based on reasoning diversity scores from gemini analysis.
-    If reasoning diversity is above a threshold, use "I don't know" as the answer.
+    Process input CSV data and create evaluation-ready files.
+    
+    For questions with reasoning_diversity above the consensus_threshold,
+    replace the consensus answer with "I don't know".
     
     Args:
-        responses_jsonl: Original responses file
-        output_jsonl: Output file for threshold-based consensus answers
-        diversity_csv: CSV file containing gemini diversity scores
-        reasoning_diversity_threshold: Threshold for reasoning diversity (0-10 scale)
+        input_csv (str): Path to input CSV file
+        output_csv (str): Path to output CSV file
+        consensus_threshold (float): Threshold for reasoning diversity
+        output_jsonl (str, optional): Path to output JSONL file for evaluation
     """
-    if not os.path.exists(responses_jsonl):
-        print(f"Responses file {responses_jsonl} does not exist.")
-        return
+    # Read the input CSV
+    df = pd.read_csv(input_csv)
     
-    if not os.path.exists(diversity_csv):
-        print(f"Diversity CSV file {diversity_csv} does not exist.")
-        return
+    # Create a copy of the dataframe to modify
+    eval_df = df.copy()
     
-    df = pd.read_csv(diversity_csv)
+    # Replace consensus answers with "I don't know" where reasoning_diversity exceeds threshold
+    mask = df['reasoning_diversity'] > consensus_threshold
+    eval_df.loc[mask, 'consensus_answer'] = "I don't know"
     
-    # Create a dictionary from dataframe using direct mapping
-    diversity_scores = {}
-    for index, row in df.iterrows():
-        q_id = str(row['question_id'])
-        r_diversity = float(row['reasoning_diversity'])
-        diversity_scores[q_id] = r_diversity
+    # Count how many answers were replaced
+    num_replaced = mask.sum()
+    total_questions = len(df)
     
-    # Read all entries from the responses file
-    entries = []
-    with open(responses_jsonl, "r") as f:
-        for line in f:
-            entries.append(json.loads(line.strip()))
+    print(f"Applied consensus threshold of {consensus_threshold}")
+    print(f"Replaced {num_replaced} out of {total_questions} answers with 'I don't know' ({num_replaced/total_questions:.2%})")
     
-    # Prepare output entries
-    output_entries = []
+    # Save to output CSV
+    eval_df.to_csv(output_csv, index=False)
+    print(f"Saved evaluation-ready data to {output_csv}")
     
-    # Count how many answers were changed to "I don't know"
-    changed_count = 0
+    # Create JSONL file for evaluation if requested
+    if output_jsonl:
+        with open(output_jsonl, 'w') as f:
+            for _, row in eval_df.iterrows():
+                # Create entry in the format expected by evaluate_simpleqa_answers
+                entry = {
+                    "question_id": str(row['question_id']),
+                    "question": row['question_text'],
+                    "gold_answer": row['gold_answer'],
+                    "predicted_answer": row['consensus_answer']
+                }
+                f.write(json.dumps(entry) + '\n')
+        print(f"Saved evaluation-ready JSONL to {output_jsonl}")
     
-    for entry in entries:
-        question_id = str(entry.get("question_id", "unknown"))
-        question = entry.get("question", "")
-        gold_answer = entry.get("gold_answer", "")
-        
-        # Get original response - Fixed to handle your specific JSONL format
-        original_answer = ""
-        
-        original_answer = entry.get("response")["choices"][0]["message"]["content"]
-        # Remove thinking part if present
-        if "</think>" in original_answer:
-            parts = original_answer.split("</think>", 1)
-            if len(parts) > 1:
-                original_answer = parts[1].strip()
-            else:
-                # If for some reason the split doesn't work, use the original
-                pass
-        
-        # Direct dictionary lookup with explicit debug
-        reasoning_diversity = diversity_scores.get(question_id, 0.0)
-        
-        # Determine the answer based on the diversity threshold
-        if reasoning_diversity > reasoning_diversity_threshold:
-            final_answer = "I don't know."
-            changed_count += 1
-            print(f"Question {question_id}: High reasoning diversity ({reasoning_diversity:.2f}) -> Using 'I don't know'")
-        else:
-            final_answer = original_answer
-            print(f"Question {question_id}: Low reasoning diversity ({reasoning_diversity:.2f}) -> Using original answer")
-        
-        #print("predicted answer: ", final_answer)
-        
-        # Create output entry
-        output_entry = {
-            "question_id": question_id,
-            "question": question,
-            "gold_answer": gold_answer,
-            "predicted_answer": final_answer,
-            "reasoning_diversity": reasoning_diversity,
-            "diversity_threshold": reasoning_diversity_threshold,
-            "original_answer": original_answer
-        }
-        
-        output_entries.append(output_entry)
-    
-    # Write output entries to file
-    with open(output_jsonl, "w") as f:
-        for entry in output_entries:
-            f.write(json.dumps(entry) + "\n")
-    
-    print(f"\nDiversity threshold summary:")
-    print(f"Total questions: {len(output_entries)}")
-    print(f"Changed to 'I don't know': {changed_count} ({changed_count/len(output_entries):.1%})")
-    print(f"Kept original answer: {len(output_entries) - changed_count} ({(len(output_entries) - changed_count)/len(output_entries):.1%})")
-    print(f"Reasoning diversity threshold: {reasoning_diversity_threshold}")
-    print(f"Updated responses saved to {output_jsonl}")
-    
-    return output_jsonl
+    return eval_df
 
 async def main_async():
     parser = argparse.ArgumentParser(description="Generate and evaluate answers to SimpleQA questions")
     parser.add_argument("--mode", type=str, required=True, 
-                      choices=["generate", "continuations", "process", "consensus", "diversity_threshold", "evaluate"], 
-                      help="Mode: generate initial answers, create continuations, process continuations, consensus, diversity_threshold, or evaluate answers")
+                      choices=["generate", "continuations", "process", "evaluate", "consensus"], 
+                      help="Mode: generate initial answers, create continuations, process continuations, evaluate answers, or apply consensus threshold")
     parser.add_argument("--num-examples", type=int, default=50, help="Number of examples to process")
     parser.add_argument("--num-continuations", type=int, default=3, help="Number of continuations per question")
+    
+    # Input/output file arguments
     parser.add_argument("--responses-file", type=str, default="simpleqa_responses.jsonl", help="File to save/load responses")
     parser.add_argument("--continuations-file", type=str, default="simpleqa_continuations.jsonl", help="File to save/load continuations")
     parser.add_argument("--continuation-responses-file", type=str, default="simpleqa_continuations_responses.jsonl", help="File to save/load continuation responses")
-    parser.add_argument("--diversity-threshold", type=float, default=7.0, help="Reasoning diversity threshold (0-10)")
+    parser.add_argument("--eval-file", type=str, default="simpleqa_responses_eval.jsonl", help="File to evaluate")
+    
+    # Consensus related arguments
+    parser.add_argument("--input-csv", type=str, default="consensus_data.csv", help="Input CSV file for consensus processing")
+    parser.add_argument("--output-csv", type=str, default="evaluation_ready.csv", help="Output CSV file for consensus results")
+    parser.add_argument("--output-jsonl", type=str, help="Output JSONL file for evaluation (optional)")
+    parser.add_argument("--consensus-threshold", type=float, default=0.5, help="Threshold for reasoning diversity in consensus processing")
+    
+    # Other arguments
     parser.add_argument("--slice", type=str, help="Optional slice of examples to use (format: 'start:end')")
     args = parser.parse_args()
     
@@ -804,29 +562,6 @@ async def main_async():
             output_jsonl=args.responses_file,
             slice_range=args.slice
         )
-    
-    elif args.mode == "consensus":
-        # Update responses with consensus
-        print("Updating responses with consensus...")
-        await update_responses_with_consensus(
-            responses_jsonl="simpleqa_responses.jsonl",
-            output_jsonl="simpleqa_consensus_responses.jsonl"
-        )
-    
-    elif args.mode == "diversity_threshold":
-        # Update responses based on reasoning diversity threshold
-        print(f"Applying reasoning diversity threshold of {args.diversity_threshold}...")
-        threshold_output = await consensus_with_diversity_threshold(
-            responses_jsonl="simpleqa_responses_test_500.jsonl",
-            output_jsonl="simpleqa_diversity_threshold_responses_test_500.jsonl",
-            diversity_csv="gemini_test_results_500.csv",
-            reasoning_diversity_threshold=args.diversity_threshold
-        )
-        
-        # Automatically evaluate if the output file was created
-        if threshold_output and os.path.exists(threshold_output):
-            print("\nEvaluating answers with diversity threshold...")
-            await evaluate_simpleqa_answers(eval_jsonl=threshold_output)
     
     elif args.mode == "continuations":
         # Generate thinking continuations
@@ -849,7 +584,17 @@ async def main_async():
         # Evaluate answers
         print("Evaluating answers...")
         await evaluate_simpleqa_answers(
-            eval_jsonl="simpleqa_responses_test_eval.jsonl"
+            eval_jsonl=args.eval_file
+        )
+    
+    elif args.mode == "consensus":
+        # Apply consensus threshold
+        print(f"Applying consensus threshold {args.consensus_threshold} to {args.input_csv}...")
+        consensus(
+            input_csv=args.input_csv,
+            output_csv=args.output_csv,
+            consensus_threshold=args.consensus_threshold,
+            output_jsonl=args.output_jsonl
         )
 
 def main():

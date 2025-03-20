@@ -189,6 +189,27 @@ Do NOT include any explanations or additional text.
             'individual_answer_scores': []
         }
 
+# Function to synthesize a consensus answer using Gemini
+def synthesize_answers_with_gemini(answers, question):
+    # Format the prompt for Gemini
+    prompt = f"""
+You are synthesizing a consensus answer from multiple responses to the same question.
+
+QUESTION: {question}
+
+Here are {len(answers)} different answers to consider:
+
+{chr(10).join([f"ANSWER {i+1}: {answer}" for i, answer in enumerate(answers)])}
+
+TASK:
+Based on these different answers, create a synthesized consensus answer that is the most representative of the different answers.
+Respond with ONLY your synthesized answer, no explanations or additional text.
+"""
+
+    model = genai.GenerativeModel('gemini-2.0-flash-lite')
+    response = model.generate_content(prompt)
+    return response.text.strip()
+
 # Load original responses
 def load_original_responses(file_path):
     original_answers = {}
@@ -202,10 +223,10 @@ def load_original_responses(file_path):
                 
                 # Extract the answer part (after thinking)
                 answer = extract_answer(response_text)
-                
                 original_answers[question_id] = {
                     'question': data.get('question', ''),
-                    'answer': answer
+                    'answer': answer,
+                    'gold_answer': data.get('gold_answer', '')  # Extract gold answer
                 }
             except (json.JSONDecodeError, KeyError) as e:
                 # Skip lines that can't be parsed
@@ -269,12 +290,18 @@ def analyze_continuation_diversity(continuations_file, original_file):
         
         # Get divergence from original answer
         original_divergence_result = None
+        gold_answer = None
         if q_id in original_responses:
             print(f"- Assessing divergence from original for question {q_id}...")
             original_answer = original_responses[q_id]['answer']
+            gold_answer = original_responses[q_id].get('gold_answer', '')  # Get gold answer
             original_divergence_result = assess_original_divergence_with_gemini(
                 original_answer, answer_texts, question_text
             )
+        
+        # Synthesize a consensus answer
+        print(f"- Synthesizing consensus answer for question {q_id}...")
+        consensus_answer = synthesize_answers_with_gemini(answer_texts, question_text)
         
         results[q_id] = {
             'question': question_text,
@@ -282,7 +309,9 @@ def analyze_continuation_diversity(continuations_file, original_file):
             'diversity_score': normalized_score,
             'diversity_details': diversity_result,
             'original_divergence_score': original_divergence_result.get('divergence_score', 0) / 10.0 if original_divergence_result else None,
-            'original_divergence_details': original_divergence_result
+            'original_divergence_details': original_divergence_result,
+            'consensus_answer': consensus_answer,
+            'gold_answer': gold_answer  # Include gold answer in results
         }
     
     return results
@@ -300,6 +329,7 @@ def load_results_from_csv(csv_file):
         q_id = row['question_id']
         results[q_id] = {
             'question': row['question_text'],
+            'gold_answer': row['gold_answer'],
             'num_continuations': row['num_continuations'],
             'diversity_score': row['final_diversity'] / 10.0,  # Normalize to 0-1
             'diversity_details': {
@@ -310,7 +340,8 @@ def load_results_from_csv(csv_file):
             'original_divergence_details': {
                 'reasoning_divergence': row['reasoning_divergence'] if pd.notna(row['reasoning_divergence']) else None,
                 'final_divergence': row['final_divergence'] if pd.notna(row['final_divergence']) else None
-            }
+            },
+            'consensus_answer': row['consensus_answer']
         }
     
     return results
@@ -324,11 +355,13 @@ def save_results_to_csv(results, output_file):
         row = {
             'question_id': q_id,
             'question_text': result.get('question', ''),
+            'gold_answer': result.get('gold_answer', ''),  # Add gold answer to CSV
             'num_continuations': result.get('num_continuations', 0),
             'reasoning_diversity': result.get('diversity_details', {}).get('reasoning_diversity', 'N/A'),
             'final_diversity': result.get('diversity_details', {}).get('final_diversity', 'N/A'),
             'reasoning_divergence': result.get('original_divergence_details', {}).get('reasoning_divergence', 'N/A'),
-            'final_divergence': result.get('original_divergence_details', {}).get('final_divergence', 'N/A')
+            'final_divergence': result.get('original_divergence_details', {}).get('final_divergence', 'N/A'),
+            'consensus_answer': result.get('consensus_answer', '')
         }
         data.append(row)
     
@@ -339,9 +372,15 @@ def save_results_to_csv(results, output_file):
 
 def main():
     # File paths
-    continuations_file = "simpleqa_continuations_responses_test_250.jsonl"
-    original_file = "simpleqa_responses_test_250.jsonl"
-    csv_results_file = "gemini_test_results_250.csv"
+    folder = "hallucination_experiment_data/500_test"
+    output_folder = "hallucination_experiment_results"
+
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder, exist_ok=True)
+
+    continuations_file = f"{folder}/simpleqa_continuations_responses_test_500.jsonl"
+    original_file = f"{folder}/simpleqa_responses_test_500.jsonl"
+    csv_results_file = f"{output_folder}/gemini_500_test_results.csv"
     
     # First try to load results from CSV if it exists
     results = load_results_from_csv(csv_results_file)
